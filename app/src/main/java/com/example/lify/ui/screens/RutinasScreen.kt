@@ -21,16 +21,7 @@ data class Rutina(val nombre: String, val descripcion: String)
 
 val rutinas = listOf(
     Rutina("Pecho y triceps", "Press de banca, Press de Banca Inclinado, Mariposa..."),
-    Rutina("Espalda y biceps", "Jalon al pecho, Remo sentado, Remo con mancuerna..."),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)"),
-    Rutina("Hola", "Voy a matarme ;)")
+    Rutina("Espalda y biceps", "Jalon al pecho, Remo sentado, Remo con mancuerna...")
 )
 
 @Composable
