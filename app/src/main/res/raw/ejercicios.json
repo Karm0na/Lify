@@ -1,0 +1,902 @@
+[
+  {
+    "id": 1,
+    "nombre": "Press de banca plano con barra",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar el pecho en banco plano utilizando una barra."
+  },
+  {
+    "id": 2,
+    "nombre": "Press de banca inclinado con barra",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar la parte superior del pecho en banco inclinado utilizando una barra."
+  },
+  {
+    "id": 3,
+    "nombre": "Press de banca declinado con barra",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar la parte inferior del pecho en banco declinado utilizando una barra."
+  },
+  {
+    "id": 4,
+    "nombre": "Press de banca plano con mancuernas",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar el pecho en banco plano utilizando mancuernas."
+  },
+  {
+    "id": 5,
+    "nombre": "Press de banca inclinado con mancuernas",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar la parte superior del pecho en banco inclinado utilizando mancuernas."
+  },
+  {
+    "id": 6,
+    "nombre": "Press de banca declinado con mancuernas",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar la parte inferior del pecho en banco declinado utilizando mancuernas."
+  },
+  {
+    "id": 7,
+    "nombre": "Aperturas con mancuernas en banco plano",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para abrir el pecho en banco plano con mancuernas."
+  },
+  {
+    "id": 8,
+    "nombre": "Aperturas con mancuernas en banco inclinado",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para abrir el pecho en banco inclinado con mancuernas."
+  },
+  {
+    "id": 9,
+    "nombre": "Aperturas con mancuernas en banco declinado",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para abrir el pecho en banco declinado con mancuernas."
+  },
+  {
+    "id": 10,
+    "nombre": "Pullover con mancuerna",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para expandir el tórax y trabajar el pecho con una mancuerna."
+  },
+  {
+    "id": 11,
+    "nombre": "Fondos en paralelas (enfocados en pecho)",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar el pecho utilizando barras paralelas."
+  },
+  {
+    "id": 12,
+    "nombre": "Crossover en poleas altas",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar el pecho mediante cruces de poleas altas."
+  },
+  {
+    "id": 13,
+    "nombre": "Press en máquina Smith (plano)",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio en máquina Smith para trabajar el pecho en banco plano."
+  },
+  {
+    "id": 14,
+    "nombre": "Press en máquina Smith (inclinado)",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio en máquina Smith para trabajar la parte superior del pecho."
+  },
+  {
+    "id": 15,
+    "nombre": "Press en máquina de pecho",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio asistido para trabajar el pecho con máquina."
+  },
+  {
+    "id": 16,
+    "nombre": "Aperturas en máquina de contractor de pecho",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio en máquina para abrir el pecho."
+  },
+  {
+    "id": 17,
+    "nombre": "Push-ups (flexiones)",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio básico para trabajar el pecho con el peso corporal."
+  },
+  {
+    "id": 18,
+    "nombre": "Push-ups con peso",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio avanzado para el pecho añadiendo resistencia con peso."
+  },
+  {
+    "id": 19,
+    "nombre": "Push-ups declinadas",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar la parte inferior del pecho con peso corporal."
+  },
+  {
+    "id": 20,
+    "nombre": "Press en banco con cables",
+    "grupoMuscular": "Pectorales",
+    "descripcion": "Ejercicio para trabajar el pecho utilizando cables en banco plano."
+  },
+  {
+    "id": 21,
+    "nombre": "Dominadas con agarre prono",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda con el peso corporal utilizando agarre prono."
+  },
+  {
+    "id": 22,
+    "nombre": "Dominadas con agarre supino",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda y los bíceps con agarre supino."
+  },
+  {
+    "id": 23,
+    "nombre": "Dominadas con agarre neutro",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda utilizando un agarre neutro."
+  },
+  {
+    "id": 24,
+    "nombre": "Remo con barra",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio compuesto para desarrollar la espalda y los bíceps utilizando una barra."
+  },
+  {
+    "id": 25,
+    "nombre": "Remo con mancuernas",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio unilateral para fortalecer la espalda con mancuernas."
+  },
+  {
+    "id": 26,
+    "nombre": "Remo en máquina Hammer Strength",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio asistido para trabajar la espalda en máquina Hammer Strength."
+  },
+  {
+    "id": 27,
+    "nombre": "Remo con polea baja",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda utilizando una polea baja."
+  },
+  {
+    "id": 28,
+    "nombre": "Jalón al pecho con polea",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda alta utilizando una máquina de polea."
+  },
+  {
+    "id": 29,
+    "nombre": "Jalón tras nuca con polea",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda utilizando un jalón tras la nuca."
+  },
+  {
+    "id": 30,
+    "nombre": "Peso muerto",
+    "grupoMuscular": "Espalda baja",
+    "descripcion": "Ejercicio compuesto que trabaja la espalda baja, glúteos y piernas."
+  },
+  {
+    "id": 31,
+    "nombre": "Peso muerto rumano",
+    "grupoMuscular": "Isquiotibiales",
+    "descripcion": "Ejercicio para trabajar los isquiotibiales y glúteos con énfasis en la técnica."
+  },
+  {
+    "id": 32,
+    "nombre": "Remo en T con barra",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda alta y media utilizando una barra en forma de T."
+  },
+  {
+    "id": 33,
+    "nombre": "Jalón con agarre cerrado",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda media utilizando un agarre cerrado."
+  },
+  {
+    "id": 34,
+    "nombre": "Remo en máquina sentado",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda sentado en una máquina de remo."
+  },
+  {
+    "id": 35,
+    "nombre": "Remo invertido (Inverted Rows)",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio con peso corporal para trabajar la espalda con barras bajas."
+  },
+  {
+    "id": 36,
+    "nombre": "Dominadas asistidas",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para facilitar las dominadas utilizando asistencia de máquina o bandas."
+  },
+  {
+    "id": 37,
+    "nombre": "Face Pulls",
+    "grupoMuscular": "Espalda y hombros",
+    "descripcion": "Ejercicio para trabajar la parte trasera de los hombros y la espalda alta con polea."
+  },
+  {
+    "id": 38,
+    "nombre": "Pullover en polea alta",
+    "grupoMuscular": "Espalda",
+    "descripcion": "Ejercicio para trabajar la espalda alta utilizando una polea alta."
+  },
+  {
+    "id": 39,
+    "nombre": "Peso muerto convencional",
+    "grupoMuscular": "Espalda baja y piernas",
+    "descripcion": "Ejercicio compuesto para trabajar espalda baja, glúteos y piernas."
+  },
+  {
+    "id": 40,
+    "nombre": "Extensiones de espalda (hiperextensiones)",
+    "grupoMuscular": "Espalda baja",
+    "descripcion": "Ejercicio para trabajar la espalda baja utilizando banco de extensiones."
+  },
+  {
+    "id": 41,
+    "nombre": "Press militar con barra",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar los hombros empujando una barra por encima de la cabeza."
+  },
+  {
+    "id": 42,
+    "nombre": "Press militar con mancuernas",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar los hombros empujando mancuernas por encima de la cabeza."
+  },
+  {
+    "id": 43,
+    "nombre": "Press Arnold",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar los hombros con un movimiento rotacional utilizando mancuernas."
+  },
+  {
+    "id": 44,
+    "nombre": "Elevaciones laterales con mancuernas",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar el deltoides lateral levantando mancuernas hacia los lados."
+  },
+  {
+    "id": 45,
+    "nombre": "Elevaciones frontales con mancuernas",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar el deltoides anterior levantando mancuernas hacia adelante."
+  },
+  {
+    "id": 46,
+    "nombre": "Elevaciones laterales en máquina",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio asistido para trabajar el deltoides lateral utilizando una máquina."
+  },
+  {
+    "id": 47,
+    "nombre": "Elevaciones frontales en polea baja",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar el deltoides anterior utilizando una polea baja."
+  },
+  {
+    "id": 48,
+    "nombre": "Remo al mentón con barra",
+    "grupoMuscular": "Hombros y trapecios",
+    "descripcion": "Ejercicio compuesto para trabajar hombros y trapecios utilizando una barra."
+  },
+  {
+    "id": 49,
+    "nombre": "Remo al mentón con mancuernas",
+    "grupoMuscular": "Hombros y trapecios",
+    "descripcion": "Ejercicio compuesto para trabajar hombros y trapecios utilizando mancuernas."
+  },
+  {
+    "id": 50,
+    "nombre": "Press de hombros en máquina",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio asistido para trabajar los hombros en máquina de prensa."
+  },
+  {
+    "id": 51,
+    "nombre": "Press tras nuca con barra",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio avanzado para trabajar los hombros empujando una barra tras la nuca."
+  },
+  {
+    "id": 52,
+    "nombre": "Elevaciones posteriores en banco inclinado",
+    "grupoMuscular": "Hombros posteriores",
+    "descripcion": "Ejercicio para trabajar la parte trasera de los hombros en un banco inclinado."
+  },
+  {
+    "id": 53,
+    "nombre": "Elevaciones posteriores con cables",
+    "grupoMuscular": "Hombros posteriores",
+    "descripcion": "Ejercicio para trabajar los hombros posteriores utilizando cables."
+  },
+  {
+    "id": 54,
+    "nombre": "Encogimientos de hombros con barra",
+    "grupoMuscular": "Trapecios",
+    "descripcion": "Ejercicio para trabajar los trapecios elevando una barra."
+  },
+  {
+    "id": 55,
+    "nombre": "Encogimientos de hombros con mancuernas",
+    "grupoMuscular": "Trapecios",
+    "descripcion": "Ejercicio para trabajar los trapecios elevando mancuernas."
+  },
+  {
+    "id": 56,
+    "nombre": "Encogimientos de hombros en máquina",
+    "grupoMuscular": "Trapecios",
+    "descripcion": "Ejercicio asistido para trabajar los trapecios utilizando una máquina."
+  },
+  {
+    "id": 57,
+    "nombre": "Remo con barra Z (agarre estrecho)",
+    "grupoMuscular": "Hombros y trapecios",
+    "descripcion": "Ejercicio para trabajar hombros y trapecios utilizando una barra Z con agarre estrecho."
+  },
+  {
+    "id": 58,
+    "nombre": "Press militar con barra en máquina Smith",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio asistido para trabajar los hombros utilizando una máquina Smith."
+  },
+  {
+    "id": 59,
+    "nombre": "Elevaciones en polea con agarre cuerda",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio para trabajar los hombros posteriores utilizando una polea con cuerda."
+  },
+  {
+    "id": 60,
+    "nombre": "Carreras con mancuernas para deltoides frontales",
+    "grupoMuscular": "Hombros",
+    "descripcion": "Ejercicio dinámico para trabajar los deltoides frontales corriendo con mancuernas ligeras."
+  },
+  {
+    "id": 61,
+    "nombre": "Curl con barra",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio clásico para trabajar los bíceps utilizando una barra recta."
+  },
+  {
+    "id": 62,
+    "nombre": "Curl con mancuernas",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio básico para los bíceps utilizando mancuernas de manera individual."
+  },
+  {
+    "id": 63,
+    "nombre": "Curl tipo martillo",
+    "grupoMuscular": "Bíceps y braquial",
+    "descripcion": "Ejercicio para trabajar los bíceps y el braquial con mancuernas en posición neutra."
+  },
+  {
+    "id": 64,
+    "nombre": "Curl predicador con barra",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio aislado para los bíceps utilizando un banco predicador y una barra recta."
+  },
+  {
+    "id": 65,
+    "nombre": "Curl predicador con mancuernas",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio aislado para los bíceps utilizando un banco predicador y mancuernas."
+  },
+  {
+    "id": 66,
+    "nombre": "Curl con barra Z",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio para trabajar los bíceps con una barra Z, ideal para reducir tensión en las muñecas."
+  },
+  {
+    "id": 67,
+    "nombre": "Curl concentrado con mancuerna",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio unilateral para los bíceps, enfocándose en un brazo a la vez."
+  },
+  {
+    "id": 68,
+    "nombre": "Curl en polea baja",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio para los bíceps utilizando una polea baja para tensión constante."
+  },
+  {
+    "id": 69,
+    "nombre": "Curl en banco inclinado",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio para trabajar los bíceps con un rango completo de movimiento en banco inclinado."
+  },
+  {
+    "id": 70,
+    "nombre": "Curl en máquina",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio asistido para los bíceps utilizando una máquina específica."
+  },
+  {
+    "id": 71,
+    "nombre": "Dominadas supinas",
+    "grupoMuscular": "Bíceps y espalda",
+    "descripcion": "Ejercicio para trabajar bíceps y espalda con un agarre supino."
+  },
+  {
+    "id": 72,
+    "nombre": "Curl araña",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio para trabajar los bíceps utilizando un banco inclinado con el pecho apoyado."
+  },
+  {
+    "id": 73,
+    "nombre": "Curl con cuerda en polea",
+    "grupoMuscular": "Bíceps",
+    "descripcion": "Ejercicio para los bíceps utilizando cuerda en polea baja."
+  },
+  {
+    "id": 74,
+    "nombre": "Curl inverso con barra",
+    "grupoMuscular": "Bíceps y antebrazos",
+    "descripcion": "Ejercicio para trabajar los bíceps y los extensores del antebrazo con un agarre prono."
+  },
+  {
+    "id": 75,
+    "nombre": "Extensión de tríceps con barra Z",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps extendiendo una barra Z por encima de la cabeza."
+  },
+  {
+    "id": 76,
+    "nombre": "Extensión de tríceps con mancuernas (patada trasera)",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio unilateral para los tríceps extendiendo una mancuerna hacia atrás."
+  },
+  {
+    "id": 77,
+    "nombre": "Press francés con barra Z",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio clásico para los tríceps utilizando una barra Z en banco plano."
+  },
+  {
+    "id": 78,
+    "nombre": "Press francés con mancuernas",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps utilizando mancuernas en banco plano."
+  },
+  {
+    "id": 79,
+    "nombre": "Fondos en paralelas",
+    "grupoMuscular": "Tríceps y pecho",
+    "descripcion": "Ejercicio compuesto para trabajar los tríceps y el pecho utilizando barras paralelas."
+  },
+  {
+    "id": 80,
+    "nombre": "Extensiones en polea con barra recta",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps utilizando una polea alta con barra recta."
+  },
+  {
+    "id": 81,
+    "nombre": "Extensiones en polea con cuerda",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps utilizando una cuerda en polea alta."
+  },
+  {
+    "id": 82,
+    "nombre": "Extensiones en polea con barra Z",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps utilizando una barra Z en polea alta."
+  },
+  {
+    "id": 83,
+    "nombre": "Press cerrado con barra",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio compuesto para trabajar los tríceps y el pecho utilizando un agarre cerrado."
+  },
+  {
+    "id": 84,
+    "nombre": "Press cerrado en máquina Smith",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio asistido para trabajar los tríceps en máquina Smith con agarre cerrado."
+  },
+  {
+    "id": 85,
+    "nombre": "Extensiones en máquina",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio asistido para trabajar los tríceps utilizando una máquina específica."
+  },
+  {
+    "id": 86,
+    "nombre": "Extensión de tríceps tumbado con mancuernas",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps tumbado en banco plano con mancuernas."
+  },
+  {
+    "id": 87,
+    "nombre": "Extensión unilateral con cuerda",
+    "grupoMuscular": "Tríceps",
+    "descripcion": "Ejercicio para trabajar los tríceps de manera unilateral utilizando una cuerda en polea."
+  },
+  {
+    "id": 88,
+    "nombre": "Sentadillas con barra",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio compuesto para trabajar las piernas utilizando una barra en los hombros."
+  },
+  {
+    "id": 89,
+    "nombre": "Sentadillas frontales",
+    "grupoMuscular": "Cuádriceps",
+    "descripcion": "Ejercicio para trabajar los cuádriceps utilizando una barra en posición frontal."
+  },
+  {
+    "id": 90,
+    "nombre": "Sentadillas búlgaras",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio unilateral para trabajar las piernas con un pie apoyado en un banco."
+  },
+  {
+    "id": 91,
+    "nombre": "Prensa de piernas",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio asistido para trabajar las piernas utilizando una máquina de prensa."
+  },
+  {
+    "id": 92,
+    "nombre": "Extensiones de pierna en máquina",
+    "grupoMuscular": "Cuádriceps",
+    "descripcion": "Ejercicio aislado para los cuádriceps utilizando una máquina."
+  },
+  {
+    "id": 93,
+    "nombre": "Zancadas con mancuernas",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio unilateral para trabajar las piernas avanzando con mancuernas en las manos."
+  },
+  {
+    "id": 94,
+    "nombre": "Zancadas con barra",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio unilateral para trabajar las piernas avanzando con una barra en los hombros."
+  },
+  {
+    "id": 95,
+    "nombre": "Sentadilla Hack",
+    "grupoMuscular": "Cuádriceps",
+    "descripcion": "Ejercicio asistido para trabajar los cuádriceps utilizando una máquina Hack."
+  },
+  {
+    "id": 96,
+    "nombre": "Sentadilla Zercher",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio para trabajar las piernas cargando una barra en los antebrazos."
+  },
+  {
+    "id": 97,
+    "nombre": "Sentadillas con kettlebells",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio para trabajar las piernas utilizando kettlebells como resistencia."
+  },
+  {
+    "id": 98,
+    "nombre": "Hip Thrust",
+    "grupoMuscular": "Glúteos y isquiotibiales",
+    "descripcion": "Ejercicio para fortalecer los glúteos elevando la cadera con una barra o peso."
+  },
+  {
+    "id": 99,
+    "nombre": "Peso muerto rumano",
+    "grupoMuscular": "Isquiotibiales y glúteos",
+    "descripcion": "Ejercicio para trabajar los isquiotibiales y glúteos utilizando una barra o mancuernas."
+  },
+  {
+    "id": 100,
+    "nombre": "Puente de glúteos",
+    "grupoMuscular": "Glúteos",
+    "descripcion": "Ejercicio para trabajar los glúteos elevando la cadera desde el suelo."
+  },
+  {
+    "id": 101,
+    "nombre": "Peso muerto sumo",
+    "grupoMuscular": "Glúteos y piernas",
+    "descripcion": "Ejercicio compuesto para trabajar glúteos y piernas con un ancho de pies más amplio."
+  },
+  {
+    "id": 102,
+    "nombre": "Curl de piernas en máquina",
+    "grupoMuscular": "Isquiotibiales",
+    "descripcion": "Ejercicio aislado para trabajar los isquiotibiales utilizando una máquina."
+  },
+  {
+    "id": 103,
+    "nombre": "Step-ups en banco con mancuernas",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio unilateral para trabajar las piernas subiendo y bajando de un banco."
+  },
+  {
+    "id": 104,
+    "nombre": "Zancadas estáticas",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio para trabajar las piernas manteniendo la posición sin desplazamiento."
+  },
+  {
+    "id": 105,
+    "nombre": "Sentadilla Sissy",
+    "grupoMuscular": "Cuádriceps",
+    "descripcion": "Ejercicio avanzado para aislar los cuádriceps manteniendo la espalda recta."
+  },
+  {
+    "id": 106,
+    "nombre": "Sentadilla profunda",
+    "grupoMuscular": "Cuádriceps y glúteos",
+    "descripcion": "Ejercicio compuesto que enfatiza la profundidad para activar más los glúteos."
+  },
+  {
+    "id": 107,
+    "nombre": "Elevación de talones de pie",
+    "grupoMuscular": "Gemelos",
+    "descripcion": "Ejercicio para trabajar los gemelos elevando los talones desde la posición de pie."
+  },
+  {
+    "id": 108,
+    "nombre": "Elevación de talones sentado",
+    "grupoMuscular": "Gemelos",
+    "descripcion": "Ejercicio para trabajar los gemelos en una posición sentada con peso."
+  },
+  {
+    "id": 109,
+    "nombre": "Elevación de talones en prensa",
+    "grupoMuscular": "Gemelos",
+    "descripcion": "Ejercicio para trabajar los gemelos utilizando la máquina de prensa."
+  },
+  {
+    "id": 110,
+    "nombre": "Saltos con peso",
+    "grupoMuscular": "Piernas y glúteos",
+    "descripcion": "Ejercicio explosivo para trabajar piernas y glúteos utilizando peso adicional."
+  },
+  {
+    "id": 111,
+    "nombre": "Crunch en el suelo",
+    "grupoMuscular": "Abdominales",
+    "descripcion": "Ejercicio básico para trabajar los abdominales superiores tumbado en el suelo."
+  },
+  {
+    "id": 112,
+    "nombre": "Crunch en máquina",
+    "grupoMuscular": "Abdominales",
+    "descripcion": "Ejercicio asistido para los abdominales utilizando una máquina."
+  },
+  {
+    "id": 113,
+    "nombre": "Crunch en fitball",
+    "grupoMuscular": "Abdominales",
+    "descripcion": "Ejercicio para trabajar los abdominales superiores utilizando un balón de ejercicio."
+  },
+  {
+    "id": 114,
+    "nombre": "Crunch en banco inclinado",
+    "grupoMuscular": "Abdominales",
+    "descripcion": "Ejercicio para los abdominales superiores aumentando la inclinación para mayor intensidad."
+  },
+  {
+    "id": 115,
+    "nombre": "Plancha estática",
+    "grupoMuscular": "Core",
+    "descripcion": "Ejercicio isométrico para fortalecer el core manteniendo una posición estable."
+  },
+  {
+    "id": 116,
+    "nombre": "Plancha lateral",
+    "grupoMuscular": "Core",
+    "descripcion": "Ejercicio isométrico para trabajar los oblicuos manteniendo una posición lateral."
+  },
+  {
+    "id": 117,
+    "nombre": "Ab Wheel Rollout (rueda abdominal)",
+    "grupoMuscular": "Core",
+    "descripcion": "Ejercicio avanzado para el core utilizando una rueda abdominal."
+  },
+  {
+    "id": 118,
+    "nombre": "Elevación de piernas colgado",
+    "grupoMuscular": "Abdominales inferiores",
+    "descripcion": "Ejercicio para trabajar los abdominales inferiores levantando las piernas colgado de una barra."
+  },
+  {
+    "id": 119,
+    "nombre": "Elevación de piernas en banco inclinado",
+    "grupoMuscular": "Abdominales inferiores",
+    "descripcion": "Ejercicio para trabajar los abdominales inferiores levantando las piernas en un banco inclinado."
+  },
+  {
+    "id": 120,
+    "nombre": "Russian Twists",
+    "grupoMuscular": "Abdominales y oblicuos",
+    "descripcion": "Ejercicio dinámico para trabajar los abdominales y oblicuos girando el torso de lado a lado."
+  },
+  {
+    "id": 121,
+    "nombre": "V-Ups",
+    "grupoMuscular": "Abdominales",
+    "descripcion": "Ejercicio para trabajar los abdominales superiores e inferiores levantando piernas y torso simultáneamente."
+  },
+  {
+    "id": 122,
+    "nombre": "Mountain Climbers",
+    "grupoMuscular": "Core y cardio",
+    "descripcion": "Ejercicio dinámico para trabajar el core y mejorar la resistencia cardiovascular."
+  },
+  {
+    "id": 123,
+    "nombre": "Plank Jacks",
+    "grupoMuscular": "Core y cardio",
+    "descripcion": "Ejercicio para trabajar el core añadiendo movimientos de piernas desde la posición de plancha."
+  },
+  {
+    "id": 124,
+    "nombre": "Side Plank Twists",
+    "grupoMuscular": "Core y oblicuos",
+    "descripcion": "Ejercicio para fortalecer los oblicuos girando el torso desde la posición de plancha lateral."
+  },
+  {
+    "id": 125,
+    "nombre": "Superman (extensión lumbar y abdominal)",
+    "grupoMuscular": "Espalda baja y core",
+    "descripcion": "Ejercicio para fortalecer la espalda baja y el core levantando brazos y piernas simultáneamente."
+  },
+  {
+    "id": 126,
+    "nombre": "Battle Ropes",
+    "grupoMuscular": "Cardio y fuerza",
+    "descripcion": "Ejercicio de alta intensidad para mejorar la resistencia y la fuerza de la parte superior del cuerpo."
+  },
+  {
+    "id": 127,
+    "nombre": "Kettlebell Swings",
+    "grupoMuscular": "Glúteos, piernas y core",
+    "descripcion": "Ejercicio dinámico para trabajar glúteos, piernas y core utilizando una kettlebell."
+  },
+  {
+    "id": 128,
+    "nombre": "Burpees",
+    "grupoMuscular": "Cardio y cuerpo completo",
+    "descripcion": "Ejercicio de cuerpo completo que combina fuerza y resistencia cardiovascular."
+  },
+  {
+    "id": 129,
+    "nombre": "Thrusters con barra",
+    "grupoMuscular": "Piernas y hombros",
+    "descripcion": "Ejercicio compuesto para trabajar piernas y hombros empujando una barra por encima de la cabeza."
+  },
+  {
+    "id": 130,
+    "nombre": "Box Jumps",
+    "grupoMuscular": "Piernas y glúteos",
+    "descripcion": "Ejercicio explosivo para trabajar las piernas y los glúteos saltando a una caja."
+  },
+  {
+    "id": 131,
+    "nombre": "Saltos pliométricos",
+    "grupoMuscular": "Piernas y glúteos",
+    "descripcion": "Ejercicio para trabajar la explosividad saltando desde una posición agachada."
+  },
+  {
+    "id": 132,
+    "nombre": "Farmer’s Walk con mancuernas",
+    "grupoMuscular": "Core y cuerpo completo",
+    "descripcion": "Ejercicio funcional para trabajar el core y la fuerza general cargando mancuernas y caminando."
+  },
+  {
+    "id": 133,
+    "nombre": "Carreras de velocidad con peso",
+    "grupoMuscular": "Piernas y cardio",
+    "descripcion": "Ejercicio explosivo para mejorar la velocidad y resistencia añadiendo peso al correr."
+  },
+  {
+    "id": 134,
+    "nombre": "Paseo del oso",
+    "grupoMuscular": "Core y cuerpo completo",
+    "descripcion": "Ejercicio funcional para trabajar el core y el cuerpo completo desplazándose a cuatro patas."
+  },
+  {
+    "id": 135,
+    "nombre": "Clean and Press",
+    "grupoMuscular": "Hombros y cuerpo completo",
+    "descripcion": "Ejercicio compuesto que combina fuerza y potencia levantando una barra del suelo por encima de la cabeza."
+  },
+  {
+    "id": 136,
+    "nombre": "Snatch con barra",
+    "grupoMuscular": "Hombros y cuerpo completo",
+    "descripcion": "Ejercicio avanzado para trabajar potencia y fuerza levantando una barra en un solo movimiento."
+  },
+  {
+    "id": 137,
+    "nombre": "Swing con kettlebell",
+    "grupoMuscular": "Glúteos, piernas y core",
+    "descripcion": "Ejercicio dinámico para fortalecer los glúteos, piernas y el core balanceando una kettlebell."
+  },
+  {
+    "id": 138,
+    "nombre": "Overhead Carry",
+    "grupoMuscular": "Core y hombros",
+    "descripcion": "Ejercicio para trabajar el core y los hombros cargando peso por encima de la cabeza mientras caminas."
+  },
+  {
+    "id": 139,
+    "nombre": "Turkish Get-Up",
+    "grupoMuscular": "Core y cuerpo completo",
+    "descripcion": "Ejercicio funcional para mejorar la movilidad, la fuerza y el equilibrio levantando una pesa desde el suelo."
+  },
+  {
+    "id": 140,
+    "nombre": "Power Clean",
+    "grupoMuscular": "Piernas y cuerpo completo",
+    "descripcion": "Ejercicio compuesto para trabajar la potencia y fuerza levantando una barra explosivamente."
+  },
+  {
+    "id": 141,
+    "nombre": "Remo ergómetro",
+    "grupoMuscular": "Espalda y cardio",
+    "descripcion": "Ejercicio cardiovascular y de fuerza para trabajar la espalda utilizando un remo ergométrico."
+  },
+  {
+    "id": 142,
+    "nombre": "Cinta de correr",
+    "grupoMuscular": "Cardio",
+    "descripcion": "Ejercicio cardiovascular clásico utilizando una cinta de correr."
+  },
+  {
+    "id": 143,
+    "nombre": "Bicicleta estática",
+    "grupoMuscular": "Cardio y piernas",
+    "descripcion": "Ejercicio cardiovascular y de resistencia enfocado en las piernas utilizando una bicicleta estática."
+  },
+  {
+    "id": 144,
+    "nombre": "Assault Bike",
+    "grupoMuscular": "Cardio y cuerpo completo",
+    "descripcion": "Ejercicio cardiovascular de alta intensidad utilizando una bicicleta con manivelas móviles."
+  },
+  {
+    "id": 145,
+    "nombre": "Escaladora",
+    "grupoMuscular": "Cardio y piernas",
+    "descripcion": "Ejercicio cardiovascular enfocado en las piernas utilizando una máquina de escaladora."
+  },
+  {
+    "id": 146,
+    "nombre": "Sprints en cinta",
+    "grupoMuscular": "Cardio y piernas",
+    "descripcion": "Ejercicio cardiovascular de alta intensidad realizando sprints en una cinta de correr."
+  },
+  {
+    "id": 147,
+    "nombre": "Saltar la cuerda",
+    "grupoMuscular": "Cardio y coordinación",
+    "descripcion": "Ejercicio cardiovascular y de coordinación utilizando una cuerda para saltar."
+  },
+  {
+    "id": 148,
+    "nombre": "Air squats (sentadillas aéreas)",
+    "grupoMuscular": "Piernas",
+    "descripcion": "Ejercicio de peso corporal para trabajar las piernas realizando sentadillas sin carga."
+  },
+  {
+    "id": 149,
+    "nombre": "Battle Rope Slams",
+    "grupoMuscular": "Core y cardio",
+    "descripcion": "Ejercicio dinámico para trabajar el core y mejorar la resistencia cardiovascular golpeando cuerdas gruesas."
+  },
+  {
+    "id": 150,
+    "nombre": "Shadow Boxing",
+    "grupoMuscular": "Cardio y coordinación",
+    "descripcion": "Ejercicio cardiovascular y técnico simulando golpes de boxeo sin contacto."
+  }
+]
