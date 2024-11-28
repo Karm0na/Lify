@@ -36,6 +36,7 @@ import com.example.lify.ui.screens.EstadisticasScreen
 import com.example.lify.ui.screens.NuevaRutinaScreen
 import com.example.lify.ui.screens.PerfilScreen
 import com.example.lify.ui.screens.RutinasScreen
+import com.example.lify.ui.screens.CrearRutinaScreen
 import com.example.lify.ui.theme.LifyTheme
 
 class MainActivity : ComponentActivity() {
@@ -188,6 +189,11 @@ fun NavigationGraph(navController: NavHostController, modifier: Modifier = Modif
         composable("perfil") { PerfilScreen() }
         composable("añadir_rutina") { AniadirRutinaScreen(navController) }
         composable("nueva_rutina") { NuevaRutinaScreen(navController, context = LocalContext.current) }
-
+        composable("crear_rutina") {
+            CrearRutinaScreen(
+                navController = navController,
+                ejerciciosSeleccionados = remember { listOf() } // Ajusta con los datos seleccionados
+            )
+        }
     }
 }

@@ -6,20 +6,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.gson.Gson
 import com.example.lify.R
 import com.example.lify.data.Ejercicio
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
 
 fun cargarEjercicios(context: Context): List<Ejercicio> {
     val inputStream = context.resources.openRawResource(R.raw.ejercicios)
@@ -31,6 +29,14 @@ fun cargarEjercicios(context: Context): List<Ejercicio> {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
+    val ejerciciosProvisional = listOf(
+        "Press de Banca con Barra",
+        "Press de Banca Inclinado",
+        "Dominadas",
+        "Peso Muerto",
+        "Sentadillas"
+    )
+
     // Estado de la lista de ejercicios
     val ejercicios = remember { mutableStateOf(cargarEjercicios(context)) }
     val busqueda = remember { mutableStateOf("") }
@@ -39,7 +45,19 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Crear rutina", color = Color.White) },
+                title = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                    text = "Crear Rutina",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 18.dp)
+                ) }},
                 navigationIcon = {
                     Text(
                         text = "Cancelar",
@@ -55,14 +73,15 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
                         color = Color(0xFFFFA000),
                         modifier = Modifier
                             .clickable {
-                                // Aquí procesaremos los ejercicios seleccionados
-                                println("Rutina creada: $ejerciciosSeleccionados")
-                                navController.popBackStack()
+                                // Navegar a CrearRutinaScreen pasando los ejercicios seleccionados
+                                navController.navigate("crear_rutina") {
+                                    popUpTo("nueva_rutina") { inclusive = true }
+                                }
                             }
                             .padding(8.dp)
                     )
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Black)
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF121212))
             )
         },
         content = { padding ->
@@ -78,8 +97,8 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
                     onValueChange = { busqueda.value = it },
                     placeholder = { Text("Buscar", color = Color.Gray) },
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Black,
-                        unfocusedContainerColor = Color.Black,
+                        focusedContainerColor = Color(0xFF1E1E1E),
+                        unfocusedContainerColor = Color(0xFF1E1E1E),
                         cursorColor = Color(0xFFFFA000),
                         focusedTextColor = Color.White,
                         unfocusedTextColor = Color.White,

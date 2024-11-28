@@ -34,7 +34,7 @@ fun AniadirRutinaScreen(navController: NavController) {
             style = MaterialTheme.typography.titleMedium,
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 16.dp)
+            modifier = Modifier.padding(vertical = 18.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
 
