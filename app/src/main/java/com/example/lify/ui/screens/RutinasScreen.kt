@@ -52,30 +52,36 @@ fun RutinasScreen(navController: NavHostController) {
                     RutinaCard(rutina)
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-            }
 
-            // Botón para iniciar entrenamiento vacío
-            Button(
-                onClick = { /* Acción para iniciar entrenamiento vacío */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                    containerColor = Color.Gray
-                )
-            ) {
-                Text(text = "Iniciar entrenamiento vacío", color = Color.White)
-            }
+                item {
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
 
-            // Botón para añadir una nueva rutina
-            Button(
-                onClick = { navController.navigate("añadir_rutina") },
-                modifier = Modifier.fillMaxWidth(),
-                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFA000)
-                )
-            ) {
-                Text(text = "Añadir rutina")
+                item {
+                    Button(
+                        onClick = { /* Acción para iniciar entrenamiento vacío */ },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = Color.Gray
+                        )
+                    ) {
+                        Text(text = "Iniciar entrenamiento vacío", color = Color.White)
+                    }
+                }
+
+                item {
+                    Button(
+                        onClick = { navController.navigate("añadir_rutina") },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFFA000)
+                        )
+                    ) {
+                        Text(text = "Añadir rutina", color = Color.Black)
+                    }
+                }
             }
         }
     }
