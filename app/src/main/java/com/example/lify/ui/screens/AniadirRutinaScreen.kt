@@ -1,12 +1,11 @@
 package com.example.lify.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,10 +14,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.lify.data.Rutina
+import com.example.lify.viewmodel.RutinasViewModel
 
 @Composable
-fun AniadirRutinaScreen(navController: NavController) {
+fun AniadirRutinaScreen(
+    navController: NavController,
+    rutinasViewModel: RutinasViewModel = viewModel()
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,12 +50,34 @@ fun AniadirRutinaScreen(navController: NavController) {
             RutinaCard(
                 titulo = "Pecho y espalda",
                 descripcion = "Primer día de Arnold Split\n3x Press banca\n3x Jalón al pecho\n3x Press banca inclinado",
-                onAddClick = { /* Acción para añadir rutina */ }
+                onAddClick = {
+                    rutinasViewModel.agregarRutina(
+                        Rutina(
+                            nombre = "Pecho y espalda",
+                            ejercicios = listOf(
+                                EjercicioSeleccionado("Press banca", 3),
+                                EjercicioSeleccionado("Jalón al pecho", 3),
+                                EjercicioSeleccionado("Press banca inclinado", 3)
+                            )
+                        )
+                    )
+                }
             )
             RutinaCard(
-                    titulo = "Bíceps, Tríceps y Hombro",
-            descripcion = "Segundo día de Arnold Split\n3x Curl de bíceps con mancuerna\n3x Extensión de tríceps\n3x Press Arnold",
-            onAddClick = { /* Acción para añadir rutina */ }
+                titulo = "Bíceps, Tríceps y Hombro",
+                descripcion = "Segundo día de Arnold Split\n3x Curl de bíceps con mancuerna\n3x Extensión de tríceps\n3x Press Arnold",
+                onAddClick = {
+                    rutinasViewModel.agregarRutina(
+                        Rutina(
+                            nombre = "Bíceps, Tríceps y Hombro",
+                            ejercicios = listOf(
+                                EjercicioSeleccionado("Curl de bíceps con mancuerna", 3),
+                                EjercicioSeleccionado("Extensión de tríceps", 3),
+                                EjercicioSeleccionado("Press Arnold", 3)
+                            )
+                        )
+                    )
+                }
             )
         }
 
@@ -61,7 +88,6 @@ fun AniadirRutinaScreen(navController: NavController) {
     }
 }
 
-// Componente: Encabezado con botón de retroceso
 @Composable
 fun Encabezado(navController: NavController) {
     Row(
@@ -86,7 +112,6 @@ fun Encabezado(navController: NavController) {
     }
 }
 
-// Componente: Tarjeta de rutina preconfigurada
 @Composable
 fun RutinaCard(titulo: String, descripcion: String, onAddClick: () -> Unit) {
     Card(
@@ -94,7 +119,7 @@ fun RutinaCard(titulo: String, descripcion: String, onAddClick: () -> Unit) {
             .fillMaxWidth()
             .height(120.dp),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)) // Fondo gris oscuro
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E))
     ) {
         Row(
             modifier = Modifier
@@ -124,23 +149,22 @@ fun RutinaCard(titulo: String, descripcion: String, onAddClick: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Añadir rutina",
-                    tint = Color(0xFFFFA000) // Naranja
+                    tint = Color(0xFFFFA000)
                 )
             }
         }
     }
 }
 
-// Componente: Botón "Crear nueva rutina"
 @Composable
 fun BotonCrearNuevaRutina(navController: NavController) {
     Button(
-        onClick = { navController.navigate("nueva_rutina") }, // Navegación futura
+        onClick = { navController.navigate("nueva_rutina") },
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
         shape = RoundedCornerShape(12.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA000)) // Naranja
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA000))
     ) {
         Text(
             text = "Crear nueva rutina",

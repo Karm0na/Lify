@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.example.lify.R
 import com.example.lify.data.Ejercicio
 
+// Función para cargar los ejercicios desde el archivo JSON
 fun cargarEjercicios(context: Context): List<Ejercicio> {
     val inputStream = context.resources.openRawResource(R.raw.ejercicios)
     val json = inputStream.bufferedReader().use { it.readText() }
@@ -29,14 +30,6 @@ fun cargarEjercicios(context: Context): List<Ejercicio> {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
-    val ejerciciosProvisional = listOf(
-        "Press de Banca con Barra",
-        "Press de Banca Inclinado",
-        "Dominadas",
-        "Peso Muerto",
-        "Sentadillas"
-    )
-
     // Estado de la lista de ejercicios
     val ejercicios = remember { mutableStateOf(cargarEjercicios(context)) }
     val busqueda = remember { mutableStateOf("") }
@@ -52,12 +45,13 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                    text = "Crear Rutina",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(vertical = 18.dp)
-                ) }},
+                            text = "Crear Rutina",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                },
                 navigationIcon = {
                     Text(
                         text = "Cancelar",
@@ -73,8 +67,12 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
                         color = Color(0xFFFFA000),
                         modifier = Modifier
                             .clickable {
-                                // Navegar a CrearRutinaScreen pasando los ejercicios seleccionados
-                                navController.navigate("crear_rutina") {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    "ejerciciosSeleccionados",
+                                    ejerciciosSeleccionados.toList()
+                                )
+                                // Navegar a CrearRutinaScreen
+                                navController.navigate("rutinas") {
                                     popUpTo("nueva_rutina") { inclusive = true }
                                 }
                             }
@@ -132,7 +130,7 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
                                 }
                                 .padding(vertical = 8.dp)
                         ) {
-                            // Círculo naranja para la imagen
+                            // Círculo naranja para la imagen o indicador de selección
                             Box(
                                 modifier = Modifier
                                     .size(48.dp)
@@ -167,4 +165,3 @@ fun NuevaRutinaScreen(navController: NavHostController, context: Context) {
         }
     )
 }
-

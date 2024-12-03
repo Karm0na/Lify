@@ -9,12 +9,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.lify.viewmodel.RutinasViewModel
 
 // Datos de ejemplo para las rutinas
 data class Rutina(val nombre: String, val descripcion: String)
@@ -25,7 +25,11 @@ val rutinas = listOf(
 )
 
 @Composable
-fun RutinasScreen(navController: NavHostController) {
+fun RutinasScreen(navController: NavHostController,
+                  viewModel: RutinasViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+                  ) {
+    val rutinas = viewModel.rutinas
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF121212)
@@ -88,7 +92,7 @@ fun RutinasScreen(navController: NavHostController) {
 }
 
 @Composable
-fun RutinaCard(rutina: Rutina) {
+fun RutinaCard(rutina: com.example.lify.data.Rutina) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
@@ -107,11 +111,11 @@ fun RutinaCard(rutina: Rutina) {
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = rutina.descripcion,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.LightGray
-            )
+            //Text(
+                //text = rutina.descripcion,
+                //style = MaterialTheme.typography.bodyMedium,
+                //color = Color.LightGray
+            //)
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = { /* Acción para empezar la rutina */ },

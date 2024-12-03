@@ -12,7 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.lify.data.Ejercicio
+import com.example.lify.data.Rutina
+import com.example.lify.viewmodel.RutinasViewModel
 
 // Modelo para representar un ejercicio con sus detalles
 data class EjercicioSeleccionado(
@@ -26,8 +30,14 @@ data class EjercicioSeleccionado(
 @Composable
 fun CrearRutinaScreen(
     navController: NavHostController,
-    ejerciciosSeleccionados: List<EjercicioSeleccionado>
+    ejerciciosSeleccionados: List<EjercicioSeleccionado> = listOf(),
+    rutinasViewModel: RutinasViewModel = viewModel()
 ) {
+    val ejerciciosSeleccionados = navController.previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<List<Ejercicio>>("ejerciciosSeleccionados")
+        ?: emptyList()
+
     // Estado para el título de la rutina
     var tituloRutina by remember { mutableStateOf("") }
 
@@ -47,8 +57,7 @@ fun CrearRutinaScreen(
                             text = "Crear Rutina",
                             style = MaterialTheme.typography.titleMedium,
                             color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(vertical = 18.dp)
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 },
@@ -67,9 +76,16 @@ fun CrearRutinaScreen(
                         color = Color(0xFFFFA000),
                         modifier = Modifier
                             .clickable {
-                                // Procesar la rutina
-                                println("Rutina creada: $tituloRutina con ejercicios: $ejerciciosSeleccionados")
-                                navController.popBackStack()
+                                if (tituloRutina.isNotBlank()) {
+                                    // Agregar la rutina al ViewModel
+                                    rutinasViewModel.agregarRutina(
+                                        Rutina(
+                                            nombre = tituloRutina,
+                                            ejercicios = ejerciciosSeleccionados
+                                        )
+                                    )
+                                    navController.popBackStack()
+                                }
                             }
                             .padding(8.dp)
                     )
@@ -230,17 +246,6 @@ fun CrearRutinaScreen(
                                         modifier = Modifier.width(50.dp)
                                     )
                                 }
-                            }
-
-                            // Botón para añadir serie
-                            Button(
-                                onClick = { /* Añadir lógica para añadir serie */ },
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA000)),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 8.dp)
-                            ) {
-                                Text(text = "Añadir serie", color = Color.Black)
                             }
                         }
                     }
