@@ -1,46 +1,113 @@
-# 🏋️ Lify — Gym Tracker para Android
+<div align="center">
 
-App nativa (Kotlin + Jetpack Compose, tema oscuro con acento naranja) para registrar entrenamientos de gimnasio: crea tus rutinas, entrena registrando cada serie y consulta tu progreso.
+# 🏋️ Lify
 
-## Funcionalidades
+**A modern, offline-first gym tracker for Android.**
+Log your workouts, track your progress, and stay consistent.
 
-- **Rutinas**: crea rutinas propias eligiendo ejercicios de un catálogo de 150 (con buscador, filtro por grupo muscular y favoritos), o añade rutinas preconfiguradas (Arnold Split, 3 días). Edita, reordena y elimina rutinas.
-- **Configuración por ejercicio**: series, peso y repeticiones, más un temporizador de descanso por rutina (de 30 s a 5 min).
-- **Entrenar**: empieza una rutina o un entrenamiento vacío. Marca series (arranca el descanso), edita peso/reps al vuelo y ve el peso/reps del último entrenamiento como referencia. Si Android cierra la app, el entrenamiento en curso se recupera.
-- **Estadísticas** (con datos reales): días entrenados de la semana, mapa de músculos coloreado según el volumen, distribución por grupo muscular, filtro por periodo (7 días, 30 días, 6 meses, 1 año, todo), progreso por ejercicio (peso máximo, volumen, 1RM estimado) e historial de entrenamientos.
-- **Perfil**: nombre, racha en semanas, nº de entrenamientos, medidas corporales con historial, unidades kg/lb y tema oscuro/claro/sistema.
-- **Datos**: copia de seguridad en JSON (exportar/restaurar) y exportación a CSV.
-- Idiomas: español (por defecto) e inglés.
+![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=white)
+![Status](https://img.shields.io/badge/status-in%20development-orange)
 
-## Requisitos y compilación
+</div>
 
-- Android Studio Koala (2024.1) o superior, JDK 17.
-- minSdk 26 (Android 8.0), compileSdk/targetSdk 34.
+---
+
+## 📖 Overview
+
+Lify is a native Android application for tracking gym workouts. It is built
+with a modern Android stack (Kotlin, Jetpack Compose and Room) and stores
+all data locally on the device, so it works without an internet connection.
+
+> ⚠️ **Project status:** Lify is under active development. Features and UI
+> may change.
+
+## 📸 Screenshots
+
+<div align="center">
+  <img src="docs/screenshots/screenshot_1.jpg" width="22%" alt="Screenshot 1" />
+  <img src="docs/screenshots/screenshot_2.jpg" width="22%" alt="Screenshot 2" />
+  <img src="docs/screenshots/screenshot_3.jpg" width="22%" alt="Screenshot 3" />
+  <img src="docs/screenshots/screenshot_4.jpg" width="22%" alt="Screenshot 4" />
+</div>
+
+## ✨ Features
+
+- [ ] [Create and manage workout routines]
+- [ ] [Log exercises, sets, reps and weight]
+- [ ] [Workout history]
+- [ ] [Progress tracking and statistics]
+- [x] Local persistence with Room (no account required)
+- [x] Fully declarative UI with Jetpack Compose
+
+## 🛠️ Tech Stack
+
+| Layer          | Technology                          |
+| -------------- | ----------------------------------- |
+| Language       | Kotlin                              |
+| UI             | Jetpack Compose                     |
+| Persistence    | Room                                |
+| Build system   | Gradle (Kotlin DSL)                 |
+| IDE            | Android Studio                      |
+
+## 🏗️ Architecture
+
+[Describe your architecture here, e.g. MVVM with a ViewModel per screen and a
+repository layer on top of Room.]
+
+```
+app/
+└── src/main/
+    ├── java/.../        # Kotlin sources (UI, data, domain)
+    └── res/             # Resources
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Android Studio](https://developer.android.com/studio) (latest stable)
+- JDK 17 or higher
+- Android SDK with a device or emulator running Android [X.X]+
+
+### Installation
 
 ```bash
-./gradlew assembleDebug          # APK de depuración
-./gradlew test                   # tests unitarios (lógica de dominio)
-./gradlew connectedAndroidTest   # test de UI (requiere emulador/dispositivo)
+# 1. Clone the repository
+git clone https://github.com/Karm0na/Lify.git
+cd Lify
+
+# 2. Open the project in Android Studio and let Gradle sync
+
+# 3. Run on an emulator or physical device
+./gradlew installDebug
 ```
 
-## Arquitectura
+### Build
 
-```
-app/src/main/java/com/example/lify/
-├── data/        Room (entidades, DAOs), repositorio, catálogo JSON, preferencias, copia de seguridad
-├── domain/      Lógica pura sin Android: estadísticas, entrenamiento en curso, unidades, CSV...
-├── model/       Modelos únicos (Ejercicio, EjercicioEnRutina, Rutina, Sesion...)
-├── viewmodel/   ViewModels compartidos por Activity (las pantallas comparten los mismos datos)
-├── navigation/  Rutas y NavHost con barra inferior
-└── ui/          Pantallas y componentes Compose (gráficas y mapa de músculos dibujados con Canvas)
+```bash
+./gradlew assembleDebug     # Debug APK
+./gradlew test              # Unit tests
 ```
 
-- Base de datos Room: `ejercicios`, `rutinas`, `ejercicios_rutina`, `sesiones`, `series_realizadas`, `medidas`. El catálogo (`res/raw/ejercicios.json`) se vuelca a la base de datos en el primer arranque; sus grupos musculares están normalizados a 13 grupos fijos.
-- Todos los pesos se guardan en kg; kg/lb es solo de presentación.
+## 🗺️ Roadmap
 
-## Hoja de ruta
+- [ ] [Planned feature 1]
+- [ ] [Planned feature 2]
+- [ ] Data export / backup
+- [ ] Dark / light theme polish
+- [ ] Google Play release
 
-- Imágenes o animaciones de ejercicios con licencia libre.
-- Sonido/vibración al acabar el descanso, notificación con la sesión en curso.
-- Superseries, notas por ejercicio y entrenamientos programados.
-- Publicación: configurar firma de la APK (ver `app/build.gradle.kts`) y generar releases.
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome. Feel free to open an
+[issue](https://github.com/Karm0na/Lify/issues) or submit a pull request.
+
+## 📄 License
+
+[Choose a license, e.g. MIT.] See `LICENSE` for details.
+
+## 👤 Author
+
+**Karm0na** · [GitHub](https://github.com/Karm0na)
