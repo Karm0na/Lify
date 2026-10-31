@@ -1,176 +1,139 @@
 package com.example.lify.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.lify.data.Rutina
+import com.example.lify.R
+import com.example.lify.data.RUTINAS_PRECONFIGURADAS
+import com.example.lify.navigation.Rutas
+import com.example.lify.ui.components.BotonPrimario
+import com.example.lify.ui.components.TarjetaLify
+import com.example.lify.ui.components.TituloSeccion
+import com.example.lify.viewmodel.EditorRutinaViewModel
+import com.example.lify.viewmodel.EjerciciosViewModel
 import com.example.lify.viewmodel.RutinasViewModel
 
 @Composable
 fun AniadirRutinaScreen(
     navController: NavController,
-    rutinasViewModel: RutinasViewModel = viewModel()
+    rutinasVm: RutinasViewModel,
+    editorVm: EditorRutinaViewModel,
+    ejerciciosVm: EjerciciosViewModel
 ) {
+    val contexto = LocalContext.current
+    val catalogo by ejerciciosVm.ejercicios.collectAsState()
+    val nombres = catalogo.associate { it.id to it.nombre }
+    val mensajeAnadida = stringResource(R.string.rutina_anadida)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212)) // Fondo oscuro
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
-        // Encabezado
-        Encabezado(navController)
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 8.dp)) {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.volver),
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+            Text(
+                text = stringResource(R.string.anadir_rutina),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
-        // Sección de rutinas preconfiguradas
-        Text(
-            text = "Rutinas Preconfiguradas",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 18.dp)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+        TituloSeccion(stringResource(R.string.rutinas_preconfiguradas), Modifier.padding(vertical = 8.dp))
 
-        // Lista de rutinas preconfiguradas
-        Column(
+        LazyColumn(
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            RutinaCard(
-                titulo = "Pecho y espalda",
-                descripcion = "Primer día de Arnold Split\n3x Press banca\n3x Jalón al pecho\n3x Press banca inclinado",
-                onAddClick = {
-                    rutinasViewModel.agregarRutina(
-                        Rutina(
-                            nombre = "Pecho y espalda",
-                            ejercicios = listOf(
-                                EjercicioSeleccionado("Press banca", 3),
-                                EjercicioSeleccionado("Jalón al pecho", 3),
-                                EjercicioSeleccionado("Press banca inclinado", 3)
+            items(RUTINAS_PRECONFIGURADAS) { plantilla ->
+                val titulo = stringResource(plantilla.titulo)
+                TarjetaLify {
+                    Row(
+                        modifier = Modifier.padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = titulo,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontWeight = FontWeight.Bold
                             )
-                        )
-                    )
-                }
-            )
-            RutinaCard(
-                titulo = "Bíceps, Tríceps y Hombro",
-                descripcion = "Segundo día de Arnold Split\n3x Curl de bíceps con mancuerna\n3x Extensión de tríceps\n3x Press Arnold",
-                onAddClick = {
-                    rutinasViewModel.agregarRutina(
-                        Rutina(
-                            nombre = "Bíceps, Tríceps y Hombro",
-                            ejercicios = listOf(
-                                EjercicioSeleccionado("Curl de bíceps con mancuerna", 3),
-                                EjercicioSeleccionado("Extensión de tríceps", 3),
-                                EjercicioSeleccionado("Press Arnold", 3)
+                            Text(
+                                text = stringResource(plantilla.descripcion),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontSize = 12.sp
                             )
-                        )
-                    )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            plantilla.ejercicios.forEach { item ->
+                                Text(
+                                    text = "${item.series}× ${nombres[item.ejercicioId] ?: ""}",
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    lineHeight = 18.sp
+                                )
+                            }
+                        }
+                        IconButton(onClick = {
+                            rutinasVm.agregarPreconfigurada(titulo, plantilla)
+                            Toast.makeText(contexto, mensajeAnadida, Toast.LENGTH_SHORT).show()
+                        }) {
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = stringResource(R.string.anadir_rutina),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
                 }
-            )
+            }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Botón para crear nueva rutina
-        BotonCrearNuevaRutina(navController)
-    }
-}
-
-@Composable
-fun Encabezado(navController: NavController) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp)
-    ) {
-        IconButton(onClick = { navController.popBackStack() }) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Retroceder",
-                tint = Color.White
-            )
-        }
-        Text(
-            text = "Añadir rutina",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.White,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
-@Composable
-fun RutinaCard(titulo: String, descripcion: String, onAddClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(120.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E))
-    ) {
-        Row(
+        Spacer(modifier = Modifier.height(12.dp))
+        BotonPrimario(
+            texto = stringResource(R.string.crear_nueva_rutina),
+            onClick = {
+                editorVm.nueva()
+                navController.navigate(Rutas.NUEVA_RUTINA)
+            },
             modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = titulo,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = descripcion,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
-                    lineHeight = 18.sp
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            IconButton(onClick = onAddClick) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Añadir rutina",
-                    tint = Color(0xFFFFA000)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun BotonCrearNuevaRutina(navController: NavController) {
-    Button(
-        onClick = { navController.navigate("nueva_rutina") },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA000))
-    ) {
-        Text(
-            text = "Crear nueva rutina",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
+                .fillMaxWidth()
+                .height(56.dp)
         )
     }
 }

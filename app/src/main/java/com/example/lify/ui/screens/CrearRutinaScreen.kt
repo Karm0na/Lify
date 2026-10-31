@@ -1,256 +1,274 @@
 package com.example.lify.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.lify.data.Ejercicio
-import com.example.lify.data.Rutina
-import com.example.lify.viewmodel.RutinasViewModel
+import com.example.lify.R
+import com.example.lify.domain.ErrorEditor
+import com.example.lify.domain.OPCIONES_DESCANSO
+import com.example.lify.navigation.Rutas
+import com.example.lify.ui.components.AvatarGrupo
+import com.example.lify.ui.components.BotonSecundario
+import com.example.lify.ui.components.CampoNumero
+import com.example.lify.ui.components.TarjetaLify
+import com.example.lify.ui.components.colorCampo
+import com.example.lify.ui.etiquetaRes
+import com.example.lify.ui.textoDescanso
+import com.example.lify.viewmodel.EditorRutinaViewModel
 
-// Modelo para representar un ejercicio con sus detalles
-data class EjercicioSeleccionado(
-    val nombre: String,
-    var series: Int = 1,
-    var peso: Int = 0,
-    var repeticiones: Int = 0
-)
-
+/** Crear o editar una rutina: título, temporizador de descanso y series/peso/repeticiones por ejercicio. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrearRutinaScreen(
     navController: NavHostController,
-    ejerciciosSeleccionados: List<EjercicioSeleccionado> = listOf(),
-    rutinasViewModel: RutinasViewModel = viewModel()
+    editorVm: EditorRutinaViewModel
 ) {
-    val ejerciciosSeleccionados = navController.previousBackStackEntry
-        ?.savedStateHandle
-        ?.get<List<Ejercicio>>("ejerciciosSeleccionados")
-        ?: emptyList()
+    val cs = MaterialTheme.colorScheme
+    val contexto = LocalContext.current
+    val estado by editorVm.estado.collectAsState()
+    var menuDescanso by remember { mutableStateOf(false) }
 
-    // Estado para el título de la rutina
-    var tituloRutina by remember { mutableStateOf("") }
-
-    // Estado para el temporizador de descanso
-    var temporizador by remember { mutableStateOf("Apagado") }
-    var dropdownExpanded by remember { mutableStateOf(false) }
+    val errorNombre = stringResource(R.string.error_sin_nombre)
+    val errorEjercicios = stringResource(R.string.error_sin_ejercicios)
 
     Scaffold(
+        containerColor = cs.background,
         topBar = {
             TopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Crear Rutina",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                    Text(
+                        text = stringResource(
+                            if (estado.rutinaId == null) R.string.crear_rutina else R.string.editar_rutina
+                        ),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
                 },
                 navigationIcon = {
                     Text(
-                        text = "Cancelar",
-                        color = Color(0xFFFFA000),
+                        text = stringResource(R.string.cancelar),
+                        color = cs.primary,
                         modifier = Modifier
                             .clickable { navController.popBackStack() }
-                            .padding(8.dp)
+                            .padding(12.dp)
                     )
                 },
                 actions = {
                     Text(
-                        text = "Aceptar",
-                        color = Color(0xFFFFA000),
+                        text = stringResource(R.string.guardar),
+                        color = cs.primary,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .clickable {
-                                if (tituloRutina.isNotBlank()) {
-                                    // Agregar la rutina al ViewModel
-                                    rutinasViewModel.agregarRutina(
-                                        Rutina(
-                                            nombre = tituloRutina,
-                                            ejercicios = ejerciciosSeleccionados
-                                        )
-                                    )
-                                    navController.popBackStack()
+                                editorVm.guardar { error ->
+                                    when (error) {
+                                        null -> navController.popBackStack(Rutas.RUTINAS, false)
+                                        ErrorEditor.SIN_NOMBRE ->
+                                            Toast.makeText(contexto, errorNombre, Toast.LENGTH_SHORT).show()
+                                        ErrorEditor.SIN_EJERCICIOS ->
+                                            Toast.makeText(contexto, errorEjercicios, Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
-                            .padding(8.dp)
+                            .padding(12.dp)
                     )
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF121212))
-            )
-        },
-        content = { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .background(Color(0xFF121212))
-            ) {
-                // Campo para el título de la rutina
-                TextField(
-                    value = tituloRutina,
-                    onValueChange = { tituloRutina = it },
-                    placeholder = { Text("Título de la rutina", color = Color.Gray) },
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color(0xFF1E1E1E),
-                        unfocusedContainerColor = Color(0xFF1E1E1E),
-                        cursorColor = Color(0xFFFFA000),
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedPlaceholderColor = Color.Gray,
-                        unfocusedPlaceholderColor = Color.Gray
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = cs.background,
+                    titleContentColor = cs.onBackground
                 )
+            )
+        }
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .background(cs.background),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            item {
+                TextField(
+                    value = estado.nombre,
+                    onValueChange = { editorVm.cambiarNombre(it) },
+                    singleLine = true,
+                    placeholder = { Text(stringResource(R.string.titulo_rutina)) },
+                    colors = colorCampo(),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
-                // Selector de temporizador de descanso
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .clickable { dropdownExpanded = true }
-                ) {
-                    Text(
-                        text = "Temporizador de descanso: ",
-                        color = Color.White,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = temporizador,
-                        color = Color(0xFFFFA000),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
-                // DropdownMenu para seleccionar tiempo de descanso
-                DropdownMenu(
-                    expanded = dropdownExpanded,
-                    onDismissRequest = { dropdownExpanded = false },
-                    modifier = Modifier.background(Color(0xFF1E1E1E))
-                ) {
-                    val tiempos = listOf(
-                        "30 segundos", "45 segundos", "1 minuto", "1 minuto 15 segundos",
-                        "1 minuto 30 segundos", "2 minutos", "2 minutos 30 segundos",
-                        "3 minutos", "3 minutos 30 segundos", "4 minutos", "4 minutos 30 segundos",
-                        "5 minutos"
-                    )
-                    tiempos.forEach { tiempo ->
-                        DropdownMenuItem(
-                            text = { Text(tiempo, color = Color.White) },
-                            onClick = {
-                                temporizador = tiempo
-                                dropdownExpanded = false
-                            }
+            item {
+                Box {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { menuDescanso = true }
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.temporizador_descanso) + " ",
+                            color = cs.onBackground,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = textoDescanso(estado.descansoSegundos),
+                            color = cs.primary,
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Lista de ejercicios seleccionados
-                LazyColumn(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 16.dp)
-                ) {
-                    items(ejerciciosSeleccionados) { ejercicio ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                                .background(Color(0xFF1E1E1E), shape = MaterialTheme.shapes.medium)
-                                .padding(16.dp)
-                        ) {
-                            // Nombre del ejercicio
-                            Text(
-                                text = ejercicio.nombre,
-                                color = Color.White,
-                                style = MaterialTheme.typography.bodyLarge
+                    DropdownMenu(
+                        expanded = menuDescanso,
+                        onDismissRequest = { menuDescanso = false },
+                        modifier = Modifier.background(cs.surfaceVariant)
+                    ) {
+                        OPCIONES_DESCANSO.forEach { segundos ->
+                            DropdownMenuItem(
+                                text = { Text(textoDescanso(segundos)) },
+                                onClick = {
+                                    editorVm.cambiarDescanso(segundos)
+                                    menuDescanso = false
+                                }
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                    }
+                }
+            }
 
-                            // Editar series, peso y repeticiones
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+            items(estado.ejercicios, key = { it.clave }) { e ->
+                TarjetaLify {
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            AvatarGrupo(e.grupo, tamano = 36.dp)
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 12.dp)
                             ) {
-                                // Series
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = "Serie", color = Color.Gray)
-                                    TextField(
-                                        value = ejercicio.series.toString(),
-                                        onValueChange = { value ->
-                                            ejercicio.series = value.toIntOrNull() ?: 1
-                                        },
-                                        colors = TextFieldDefaults.colors(
-                                            focusedContainerColor = Color(0xFF121212),
-                                            unfocusedContainerColor = Color(0xFF121212),
-                                            focusedTextColor = Color.White,
-                                            unfocusedTextColor = Color.White
-                                        ),
-                                        modifier = Modifier.width(50.dp)
-                                    )
-                                }
-
-                                // Peso
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = "Peso", color = Color.Gray)
-                                    TextField(
-                                        value = ejercicio.peso.toString(),
-                                        onValueChange = { value ->
-                                            ejercicio.peso = value.toIntOrNull() ?: 0
-                                        },
-                                        colors = TextFieldDefaults.colors(
-                                            focusedContainerColor = Color(0xFF121212),
-                                            unfocusedContainerColor = Color(0xFF121212),
-                                            focusedTextColor = Color.White,
-                                            unfocusedTextColor = Color.White
-                                        ),
-                                        modifier = Modifier.width(50.dp)
-                                    )
-                                }
-
-                                // Reps
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = "Reps", color = Color.Gray)
-                                    TextField(
-                                        value = ejercicio.repeticiones.toString(),
-                                        onValueChange = { value ->
-                                            ejercicio.repeticiones = value.toIntOrNull() ?: 0
-                                        },
-                                        colors = TextFieldDefaults.colors(
-                                            focusedContainerColor = Color(0xFF121212),
-                                            unfocusedContainerColor = Color(0xFF121212),
-                                            focusedTextColor = Color.White,
-                                            unfocusedTextColor = Color.White
-                                        ),
-                                        modifier = Modifier.width(50.dp)
-                                    )
-                                }
+                                Text(
+                                    text = e.nombre,
+                                    color = cs.onSurface,
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Text(
+                                    text = stringResource(e.grupo.etiquetaRes()),
+                                    color = cs.onSurfaceVariant,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                            IconButton(onClick = { editorVm.mover(e.clave, -1) }) {
+                                Icon(
+                                    Icons.Default.KeyboardArrowUp,
+                                    contentDescription = stringResource(R.string.subir),
+                                    tint = cs.onSurfaceVariant
+                                )
+                            }
+                            IconButton(onClick = { editorVm.mover(e.clave, 1) }) {
+                                Icon(
+                                    Icons.Default.KeyboardArrowDown,
+                                    contentDescription = stringResource(R.string.bajar),
+                                    tint = cs.onSurfaceVariant
+                                )
+                            }
+                            IconButton(onClick = { editorVm.quitar(e.clave) }) {
+                                Icon(
+                                    Icons.Default.Close,
+                                    contentDescription = stringResource(R.string.quitar),
+                                    tint = cs.error
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            EtiquetaCampo(stringResource(R.string.series), Modifier.weight(1f)) {
+                                CampoNumero(e.series, { editorVm.cambiarSeries(e.clave, it) }, "3")
+                            }
+                            EtiquetaCampo(
+                                stringResource(R.string.peso_unidad, estado.unidad.simbolo),
+                                Modifier.weight(1f)
+                            ) {
+                                CampoNumero(e.peso, { editorVm.cambiarPeso(e.clave, it) }, "0", decimal = true)
+                            }
+                            EtiquetaCampo(stringResource(R.string.reps), Modifier.weight(1f)) {
+                                CampoNumero(e.repeticiones, { editorVm.cambiarRepeticiones(e.clave, it) }, "10")
                             }
                         }
                     }
                 }
             }
+
+            if (estado.ejercicios.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(R.string.rutina_sin_ejercicios),
+                        color = cs.onSurfaceVariant
+                    )
+                }
+            }
+
+            item {
+                BotonSecundario(
+                    texto = stringResource(R.string.anadir_ejercicios),
+                    onClick = { navController.navigate(Rutas.NUEVA_RUTINA) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
-    )
+    }
+}
+
+@Composable
+private fun EtiquetaCampo(
+    etiqueta: String,
+    modifier: Modifier = Modifier,
+    campo: @Composable () -> Unit
+) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = etiqueta, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
+        Spacer(modifier = Modifier.height(4.dp))
+        campo()
+    }
 }

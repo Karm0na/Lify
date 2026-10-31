@@ -2,121 +2,121 @@
   {
     "id": 1,
     "nombre": "Press de banca plano con barra",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar el pecho en banco plano utilizando una barra."
   },
   {
     "id": 2,
     "nombre": "Press de banca inclinado con barra",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar la parte superior del pecho en banco inclinado utilizando una barra."
   },
   {
     "id": 3,
     "nombre": "Press de banca declinado con barra",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar la parte inferior del pecho en banco declinado utilizando una barra."
   },
   {
     "id": 4,
     "nombre": "Press de banca plano con mancuernas",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar el pecho en banco plano utilizando mancuernas."
   },
   {
     "id": 5,
     "nombre": "Press de banca inclinado con mancuernas",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar la parte superior del pecho en banco inclinado utilizando mancuernas."
   },
   {
     "id": 6,
     "nombre": "Press de banca declinado con mancuernas",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar la parte inferior del pecho en banco declinado utilizando mancuernas."
   },
   {
     "id": 7,
     "nombre": "Aperturas con mancuernas en banco plano",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para abrir el pecho en banco plano con mancuernas."
   },
   {
     "id": 8,
     "nombre": "Aperturas con mancuernas en banco inclinado",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para abrir el pecho en banco inclinado con mancuernas."
   },
   {
     "id": 9,
     "nombre": "Aperturas con mancuernas en banco declinado",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para abrir el pecho en banco declinado con mancuernas."
   },
   {
     "id": 10,
     "nombre": "Pullover con mancuerna",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para expandir el tórax y trabajar el pecho con una mancuerna."
   },
   {
     "id": 11,
     "nombre": "Fondos en paralelas (enfocados en pecho)",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar el pecho utilizando barras paralelas."
   },
   {
     "id": 12,
     "nombre": "Crossover en poleas altas",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar el pecho mediante cruces de poleas altas."
   },
   {
     "id": 13,
     "nombre": "Press en máquina Smith (plano)",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio en máquina Smith para trabajar el pecho en banco plano."
   },
   {
     "id": 14,
     "nombre": "Press en máquina Smith (inclinado)",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio en máquina Smith para trabajar la parte superior del pecho."
   },
   {
     "id": 15,
     "nombre": "Press en máquina de pecho",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio asistido para trabajar el pecho con máquina."
   },
   {
     "id": 16,
     "nombre": "Aperturas en máquina de contractor de pecho",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio en máquina para abrir el pecho."
   },
   {
     "id": 17,
     "nombre": "Push-ups (flexiones)",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio básico para trabajar el pecho con el peso corporal."
   },
   {
     "id": 18,
     "nombre": "Push-ups con peso",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio avanzado para el pecho añadiendo resistencia con peso."
   },
   {
     "id": 19,
     "nombre": "Push-ups declinadas",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar la parte inferior del pecho con peso corporal."
   },
   {
     "id": 20,
     "nombre": "Press en banco con cables",
-    "grupoMuscular": "Pectorales",
+    "grupoMuscular": "Pecho",
     "descripcion": "Ejercicio para trabajar el pecho utilizando cables en banco plano."
   },
   {
@@ -176,7 +176,7 @@
   {
     "id": 30,
     "nombre": "Peso muerto",
-    "grupoMuscular": "Espalda baja",
+    "grupoMuscular": "Espalda",
     "descripcion": "Ejercicio compuesto que trabaja la espalda baja, glúteos y piernas."
   },
   {
@@ -218,7 +218,7 @@
   {
     "id": 37,
     "nombre": "Face Pulls",
-    "grupoMuscular": "Espalda y hombros",
+    "grupoMuscular": "Espalda",
     "descripcion": "Ejercicio para trabajar la parte trasera de los hombros y la espalda alta con polea."
   },
   {
@@ -230,13 +230,13 @@
   {
     "id": 39,
     "nombre": "Peso muerto convencional",
-    "grupoMuscular": "Espalda baja y piernas",
+    "grupoMuscular": "Espalda",
     "descripcion": "Ejercicio compuesto para trabajar espalda baja, glúteos y piernas."
   },
   {
     "id": 40,
     "nombre": "Extensiones de espalda (hiperextensiones)",
-    "grupoMuscular": "Espalda baja",
+    "grupoMuscular": "Espalda",
     "descripcion": "Ejercicio para trabajar la espalda baja utilizando banco de extensiones."
   },
   {
@@ -284,13 +284,13 @@
   {
     "id": 48,
     "nombre": "Remo al mentón con barra",
-    "grupoMuscular": "Hombros y trapecios",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio compuesto para trabajar hombros y trapecios utilizando una barra."
   },
   {
     "id": 49,
     "nombre": "Remo al mentón con mancuernas",
-    "grupoMuscular": "Hombros y trapecios",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio compuesto para trabajar hombros y trapecios utilizando mancuernas."
   },
   {
@@ -308,13 +308,13 @@
   {
     "id": 52,
     "nombre": "Elevaciones posteriores en banco inclinado",
-    "grupoMuscular": "Hombros posteriores",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio para trabajar la parte trasera de los hombros en un banco inclinado."
   },
   {
     "id": 53,
     "nombre": "Elevaciones posteriores con cables",
-    "grupoMuscular": "Hombros posteriores",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio para trabajar los hombros posteriores utilizando cables."
   },
   {
@@ -338,7 +338,7 @@
   {
     "id": 57,
     "nombre": "Remo con barra Z (agarre estrecho)",
-    "grupoMuscular": "Hombros y trapecios",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio para trabajar hombros y trapecios utilizando una barra Z con agarre estrecho."
   },
   {
@@ -374,7 +374,7 @@
   {
     "id": 63,
     "nombre": "Curl tipo martillo",
-    "grupoMuscular": "Bíceps y braquial",
+    "grupoMuscular": "Bíceps",
     "descripcion": "Ejercicio para trabajar los bíceps y el braquial con mancuernas en posición neutra."
   },
   {
@@ -422,7 +422,7 @@
   {
     "id": 71,
     "nombre": "Dominadas supinas",
-    "grupoMuscular": "Bíceps y espalda",
+    "grupoMuscular": "Bíceps",
     "descripcion": "Ejercicio para trabajar bíceps y espalda con un agarre supino."
   },
   {
@@ -440,7 +440,7 @@
   {
     "id": 74,
     "nombre": "Curl inverso con barra",
-    "grupoMuscular": "Bíceps y antebrazos",
+    "grupoMuscular": "Bíceps",
     "descripcion": "Ejercicio para trabajar los bíceps y los extensores del antebrazo con un agarre prono."
   },
   {
@@ -470,7 +470,7 @@
   {
     "id": 79,
     "nombre": "Fondos en paralelas",
-    "grupoMuscular": "Tríceps y pecho",
+    "grupoMuscular": "Tríceps",
     "descripcion": "Ejercicio compuesto para trabajar los tríceps y el pecho utilizando barras paralelas."
   },
   {
@@ -524,7 +524,7 @@
   {
     "id": 88,
     "nombre": "Sentadillas con barra",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio compuesto para trabajar las piernas utilizando una barra en los hombros."
   },
   {
@@ -536,13 +536,13 @@
   {
     "id": 90,
     "nombre": "Sentadillas búlgaras",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio unilateral para trabajar las piernas con un pie apoyado en un banco."
   },
   {
     "id": 91,
     "nombre": "Prensa de piernas",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio asistido para trabajar las piernas utilizando una máquina de prensa."
   },
   {
@@ -554,13 +554,13 @@
   {
     "id": 93,
     "nombre": "Zancadas con mancuernas",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio unilateral para trabajar las piernas avanzando con mancuernas en las manos."
   },
   {
     "id": 94,
     "nombre": "Zancadas con barra",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio unilateral para trabajar las piernas avanzando con una barra en los hombros."
   },
   {
@@ -572,25 +572,25 @@
   {
     "id": 96,
     "nombre": "Sentadilla Zercher",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio para trabajar las piernas cargando una barra en los antebrazos."
   },
   {
     "id": 97,
     "nombre": "Sentadillas con kettlebells",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio para trabajar las piernas utilizando kettlebells como resistencia."
   },
   {
     "id": 98,
     "nombre": "Hip Thrust",
-    "grupoMuscular": "Glúteos y isquiotibiales",
+    "grupoMuscular": "Glúteos",
     "descripcion": "Ejercicio para fortalecer los glúteos elevando la cadera con una barra o peso."
   },
   {
     "id": 99,
     "nombre": "Peso muerto rumano",
-    "grupoMuscular": "Isquiotibiales y glúteos",
+    "grupoMuscular": "Isquiotibiales",
     "descripcion": "Ejercicio para trabajar los isquiotibiales y glúteos utilizando una barra o mancuernas."
   },
   {
@@ -602,7 +602,7 @@
   {
     "id": 101,
     "nombre": "Peso muerto sumo",
-    "grupoMuscular": "Glúteos y piernas",
+    "grupoMuscular": "Glúteos",
     "descripcion": "Ejercicio compuesto para trabajar glúteos y piernas con un ancho de pies más amplio."
   },
   {
@@ -614,13 +614,13 @@
   {
     "id": 103,
     "nombre": "Step-ups en banco con mancuernas",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio unilateral para trabajar las piernas subiendo y bajando de un banco."
   },
   {
     "id": 104,
     "nombre": "Zancadas estáticas",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio para trabajar las piernas manteniendo la posición sin desplazamiento."
   },
   {
@@ -632,7 +632,7 @@
   {
     "id": 106,
     "nombre": "Sentadilla profunda",
-    "grupoMuscular": "Cuádriceps y glúteos",
+    "grupoMuscular": "Cuádriceps",
     "descripcion": "Ejercicio compuesto que enfatiza la profundidad para activar más los glúteos."
   },
   {
@@ -656,31 +656,31 @@
   {
     "id": 110,
     "nombre": "Saltos con peso",
-    "grupoMuscular": "Piernas y glúteos",
+    "grupoMuscular": "Piernas",
     "descripcion": "Ejercicio explosivo para trabajar piernas y glúteos utilizando peso adicional."
   },
   {
     "id": 111,
     "nombre": "Crunch en el suelo",
-    "grupoMuscular": "Abdominales",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio básico para trabajar los abdominales superiores tumbado en el suelo."
   },
   {
     "id": 112,
     "nombre": "Crunch en máquina",
-    "grupoMuscular": "Abdominales",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio asistido para los abdominales utilizando una máquina."
   },
   {
     "id": 113,
     "nombre": "Crunch en fitball",
-    "grupoMuscular": "Abdominales",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para trabajar los abdominales superiores utilizando un balón de ejercicio."
   },
   {
     "id": 114,
     "nombre": "Crunch en banco inclinado",
-    "grupoMuscular": "Abdominales",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para los abdominales superiores aumentando la inclinación para mayor intensidad."
   },
   {
@@ -704,145 +704,145 @@
   {
     "id": 118,
     "nombre": "Elevación de piernas colgado",
-    "grupoMuscular": "Abdominales inferiores",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para trabajar los abdominales inferiores levantando las piernas colgado de una barra."
   },
   {
     "id": 119,
     "nombre": "Elevación de piernas en banco inclinado",
-    "grupoMuscular": "Abdominales inferiores",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para trabajar los abdominales inferiores levantando las piernas en un banco inclinado."
   },
   {
     "id": 120,
     "nombre": "Russian Twists",
-    "grupoMuscular": "Abdominales y oblicuos",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio dinámico para trabajar los abdominales y oblicuos girando el torso de lado a lado."
   },
   {
     "id": 121,
     "nombre": "V-Ups",
-    "grupoMuscular": "Abdominales",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para trabajar los abdominales superiores e inferiores levantando piernas y torso simultáneamente."
   },
   {
     "id": 122,
     "nombre": "Mountain Climbers",
-    "grupoMuscular": "Core y cardio",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio dinámico para trabajar el core y mejorar la resistencia cardiovascular."
   },
   {
     "id": 123,
     "nombre": "Plank Jacks",
-    "grupoMuscular": "Core y cardio",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para trabajar el core añadiendo movimientos de piernas desde la posición de plancha."
   },
   {
     "id": 124,
     "nombre": "Side Plank Twists",
-    "grupoMuscular": "Core y oblicuos",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para fortalecer los oblicuos girando el torso desde la posición de plancha lateral."
   },
   {
     "id": 125,
     "nombre": "Superman (extensión lumbar y abdominal)",
-    "grupoMuscular": "Espalda baja y core",
+    "grupoMuscular": "Espalda",
     "descripcion": "Ejercicio para fortalecer la espalda baja y el core levantando brazos y piernas simultáneamente."
   },
   {
     "id": 126,
     "nombre": "Battle Ropes",
-    "grupoMuscular": "Cardio y fuerza",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio de alta intensidad para mejorar la resistencia y la fuerza de la parte superior del cuerpo."
   },
   {
     "id": 127,
     "nombre": "Kettlebell Swings",
-    "grupoMuscular": "Glúteos, piernas y core",
+    "grupoMuscular": "Glúteos",
     "descripcion": "Ejercicio dinámico para trabajar glúteos, piernas y core utilizando una kettlebell."
   },
   {
     "id": 128,
     "nombre": "Burpees",
-    "grupoMuscular": "Cardio y cuerpo completo",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio de cuerpo completo que combina fuerza y resistencia cardiovascular."
   },
   {
     "id": 129,
     "nombre": "Thrusters con barra",
-    "grupoMuscular": "Piernas y hombros",
+    "grupoMuscular": "Piernas",
     "descripcion": "Ejercicio compuesto para trabajar piernas y hombros empujando una barra por encima de la cabeza."
   },
   {
     "id": 130,
     "nombre": "Box Jumps",
-    "grupoMuscular": "Piernas y glúteos",
+    "grupoMuscular": "Piernas",
     "descripcion": "Ejercicio explosivo para trabajar las piernas y los glúteos saltando a una caja."
   },
   {
     "id": 131,
     "nombre": "Saltos pliométricos",
-    "grupoMuscular": "Piernas y glúteos",
+    "grupoMuscular": "Piernas",
     "descripcion": "Ejercicio para trabajar la explosividad saltando desde una posición agachada."
   },
   {
     "id": 132,
     "nombre": "Farmer’s Walk con mancuernas",
-    "grupoMuscular": "Core y cuerpo completo",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio funcional para trabajar el core y la fuerza general cargando mancuernas y caminando."
   },
   {
     "id": 133,
     "nombre": "Carreras de velocidad con peso",
-    "grupoMuscular": "Piernas y cardio",
+    "grupoMuscular": "Piernas",
     "descripcion": "Ejercicio explosivo para mejorar la velocidad y resistencia añadiendo peso al correr."
   },
   {
     "id": 134,
     "nombre": "Paseo del oso",
-    "grupoMuscular": "Core y cuerpo completo",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio funcional para trabajar el core y el cuerpo completo desplazándose a cuatro patas."
   },
   {
     "id": 135,
     "nombre": "Clean and Press",
-    "grupoMuscular": "Hombros y cuerpo completo",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio compuesto que combina fuerza y potencia levantando una barra del suelo por encima de la cabeza."
   },
   {
     "id": 136,
     "nombre": "Snatch con barra",
-    "grupoMuscular": "Hombros y cuerpo completo",
+    "grupoMuscular": "Hombros",
     "descripcion": "Ejercicio avanzado para trabajar potencia y fuerza levantando una barra en un solo movimiento."
   },
   {
     "id": 137,
     "nombre": "Swing con kettlebell",
-    "grupoMuscular": "Glúteos, piernas y core",
+    "grupoMuscular": "Glúteos",
     "descripcion": "Ejercicio dinámico para fortalecer los glúteos, piernas y el core balanceando una kettlebell."
   },
   {
     "id": 138,
     "nombre": "Overhead Carry",
-    "grupoMuscular": "Core y hombros",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio para trabajar el core y los hombros cargando peso por encima de la cabeza mientras caminas."
   },
   {
     "id": 139,
     "nombre": "Turkish Get-Up",
-    "grupoMuscular": "Core y cuerpo completo",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio funcional para mejorar la movilidad, la fuerza y el equilibrio levantando una pesa desde el suelo."
   },
   {
     "id": 140,
     "nombre": "Power Clean",
-    "grupoMuscular": "Piernas y cuerpo completo",
+    "grupoMuscular": "Piernas",
     "descripcion": "Ejercicio compuesto para trabajar la potencia y fuerza levantando una barra explosivamente."
   },
   {
     "id": 141,
     "nombre": "Remo ergómetro",
-    "grupoMuscular": "Espalda y cardio",
+    "grupoMuscular": "Espalda",
     "descripcion": "Ejercicio cardiovascular y de fuerza para trabajar la espalda utilizando un remo ergométrico."
   },
   {
@@ -854,31 +854,31 @@
   {
     "id": 143,
     "nombre": "Bicicleta estática",
-    "grupoMuscular": "Cardio y piernas",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio cardiovascular y de resistencia enfocado en las piernas utilizando una bicicleta estática."
   },
   {
     "id": 144,
     "nombre": "Assault Bike",
-    "grupoMuscular": "Cardio y cuerpo completo",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio cardiovascular de alta intensidad utilizando una bicicleta con manivelas móviles."
   },
   {
     "id": 145,
     "nombre": "Escaladora",
-    "grupoMuscular": "Cardio y piernas",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio cardiovascular enfocado en las piernas utilizando una máquina de escaladora."
   },
   {
     "id": 146,
     "nombre": "Sprints en cinta",
-    "grupoMuscular": "Cardio y piernas",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio cardiovascular de alta intensidad realizando sprints en una cinta de correr."
   },
   {
     "id": 147,
     "nombre": "Saltar la cuerda",
-    "grupoMuscular": "Cardio y coordinación",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio cardiovascular y de coordinación utilizando una cuerda para saltar."
   },
   {
@@ -890,13 +890,13 @@
   {
     "id": 149,
     "nombre": "Battle Rope Slams",
-    "grupoMuscular": "Core y cardio",
+    "grupoMuscular": "Core",
     "descripcion": "Ejercicio dinámico para trabajar el core y mejorar la resistencia cardiovascular golpeando cuerdas gruesas."
   },
   {
     "id": 150,
     "nombre": "Shadow Boxing",
-    "grupoMuscular": "Cardio y coordinación",
+    "grupoMuscular": "Cardio",
     "descripcion": "Ejercicio cardiovascular y técnico simulando golpes de boxeo sin contacto."
   }
 ]

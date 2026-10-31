@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# --- Lify ---
+# Gson (catálogo, copia de seguridad y borrador del entrenamiento) usa reflexión sobre estas clases
+-keep class com.example.lify.data.CatalogoItem { *; }
+-keep class com.example.lify.data.backup.** { *; }
+-keep class com.example.lify.model.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
