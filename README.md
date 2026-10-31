@@ -1,113 +1,127 @@
-<div align="center">
+# Lify
 
-# 🏋️ Lify
+Aplicación Android nativa para el registro de entrenamientos de gimnasio: rutinas personalizables, seguimiento serie a serie, estadísticas de progreso y copia de seguridad de los datos. Funciona sin conexión y sin cuentas de usuario.
 
-**A modern, offline-first gym tracker for Android.**
-Log your workouts, track your progress, and stay consistent.
+![Plataforma](https://img.shields.io/badge/plataforma-Android%208.0%2B-3DDC84?logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.9.24-7F52FF?logo=kotlin&logoColor=white)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white)
+![Estado](https://img.shields.io/badge/estado-en%20desarrollo-orange)
 
-![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)
-![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)
-![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=white)
-![Status](https://img.shields.io/badge/status-in%20development-orange)
+## Capturas de pantalla
 
-</div>
+<p align="center">
+  <img src="docs/screenshots/screenshot_1.jpg" width="22%" alt="Pantalla 1" />
+  <img src="docs/screenshots/screenshot_2.jpg" width="22%" alt="Pantalla 2" />
+  <img src="docs/screenshots/screenshot_3.jpg" width="22%" alt="Pantalla 3" />
+  <img src="docs/screenshots/screenshot_4.jpg" width="22%" alt="Pantalla 4" />
+</p>
 
----
+## Características
 
-## 📖 Overview
+### Rutinas
+- Catálogo de 150 ejercicios organizados en 13 grupos musculares, con buscador, filtro por grupo y favoritos.
+- Creación, edición, reordenación y eliminación de rutinas propias.
+- Configuración por ejercicio: series, peso y repeticiones.
+- Temporizador de descanso configurable por rutina (de 30 s a 5 min).
+- Rutinas preconfiguradas (Arnold Split, 3 días).
 
-Lify is a native Android application for tracking gym workouts. It is built
-with a modern Android stack (Kotlin, Jetpack Compose and Room) and stores
-all data locally on the device, so it works without an internet connection.
+### Entrenamiento
+- Inicio desde una rutina o como entrenamiento vacío.
+- Marcado de series con arranque automático del descanso y edición de peso y repeticiones durante la sesión.
+- Peso y repeticiones del último entrenamiento como referencia.
+- Recuperación del entrenamiento en curso si el sistema cierra la aplicación.
 
-> ⚠️ **Project status:** Lify is under active development. Features and UI
-> may change.
+### Estadísticas
+- Días entrenados de la semana y distribución del volumen por grupo muscular.
+- Mapa corporal coloreado según el volumen trabajado.
+- Filtro por periodo: 7 días, 30 días, 6 meses, 1 año o histórico completo.
+- Progreso por ejercicio: peso máximo, volumen y 1RM estimado.
+- Historial de entrenamientos.
 
-## 📸 Screenshots
+### Perfil y datos
+- Racha semanal, número de entrenamientos y medidas corporales con historial.
+- Unidades kg/lb y tema oscuro, claro o del sistema.
+- Copia de seguridad en JSON (exportación y restauración) y exportación a CSV.
+- Idiomas: español (por defecto) e inglés.
 
-<div align="center">
-  <img src="docs/screenshots/screenshot_1.jpg" width="22%" alt="Screenshot 1" />
-  <img src="docs/screenshots/screenshot_2.jpg" width="22%" alt="Screenshot 2" />
-  <img src="docs/screenshots/screenshot_3.jpg" width="22%" alt="Screenshot 3" />
-  <img src="docs/screenshots/screenshot_4.jpg" width="22%" alt="Screenshot 4" />
-</div>
+## Stack tecnológico
 
-## ✨ Features
+| Área | Tecnología |
+| --- | --- |
+| Lenguaje | Kotlin 1.9.24 |
+| Interfaz | Jetpack Compose (BOM 2024.06.00), Material 3 |
+| Navegación | Navigation Compose 2.7.7 |
+| Persistencia | Room 2.6.1 |
+| Concurrencia | Kotlin Coroutines 1.8.1 |
+| Serialización | Gson 2.10.1 |
+| Build | Gradle (Kotlin DSL), Android Gradle Plugin 8.6.0, version catalog |
+| Testing | JUnit 4, Espresso, Compose UI Test |
 
-- [ ] [Create and manage workout routines]
-- [ ] [Log exercises, sets, reps and weight]
-- [ ] [Workout history]
-- [ ] [Progress tracking and statistics]
-- [x] Local persistence with Room (no account required)
-- [x] Fully declarative UI with Jetpack Compose
+## Arquitectura
 
-## 🛠️ Tech Stack
-
-| Layer          | Technology                          |
-| -------------- | ----------------------------------- |
-| Language       | Kotlin                              |
-| UI             | Jetpack Compose                     |
-| Persistence    | Room                                |
-| Build system   | Gradle (Kotlin DSL)                 |
-| IDE            | Android Studio                      |
-
-## 🏗️ Architecture
-
-[Describe your architecture here, e.g. MVVM with a ViewModel per screen and a
-repository layer on top of Room.]
+El proyecto separa la lógica de dominio, la persistencia y la interfaz. La lógica de negocio (estadísticas, unidades, CSV, entrenamiento en curso) no depende de Android, lo que permite probarla con tests unitarios simples.
 
 ```
-app/
-└── src/main/
-    ├── java/.../        # Kotlin sources (UI, data, domain)
-    └── res/             # Resources
+app/src/main/java/com/example/lify/
+├── data/         Room (entidades y DAOs), repositorio, catálogo JSON,
+│                 preferencias y copia de seguridad
+├── domain/       Lógica pura sin dependencias de Android
+├── model/        Modelos compartidos (Ejercicio, Rutina, Sesion...)
+├── viewmodel/    ViewModels compartidos a nivel de Activity
+├── navigation/   Rutas y NavHost con barra de navegación inferior
+└── ui/           Pantallas y componentes Compose
+                  (gráficas y mapa muscular dibujados con Canvas)
 ```
 
-## 🚀 Getting Started
+Decisiones de diseño:
 
-### Prerequisites
+- **Base de datos:** Room con las tablas `ejercicios`, `rutinas`, `ejercicios_rutina`, `sesiones`, `series_realizadas` y `medidas`. El catálogo (`res/raw/ejercicios.json`) se carga en la base de datos en el primer arranque.
+- **Unidades:** todos los pesos se almacenan en kg; la conversión a lb es únicamente de presentación.
+- **Estado del entrenamiento:** la sesión activa se serializa como borrador con Gson, de modo que sobrevive al cierre del proceso por parte del sistema.
+- **Visualización:** las gráficas y el mapa muscular se implementan con Canvas, sin librerías de gráficos externas.
 
-- [Android Studio](https://developer.android.com/studio) (latest stable)
-- JDK 17 or higher
-- Android SDK with a device or emulator running Android [X.X]+
+## Requisitos
 
-### Installation
+- Android Studio Koala (2024.1) o superior
+- JDK 17
+- Dispositivo o emulador con Android 8.0 (API 26) o superior
+
+Configuración del SDK: `compileSdk` y `targetSdk` 34, `minSdk` 26.
+
+## Compilación y ejecución
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/Karm0na/Lify.git
 cd Lify
 
-# 2. Open the project in Android Studio and let Gradle sync
-
-# 3. Run on an emulator or physical device
-./gradlew installDebug
+./gradlew assembleDebug          # genera el APK de depuración
+./gradlew installDebug           # instala en el dispositivo o emulador conectado
 ```
 
-### Build
+## Tests
 
 ```bash
-./gradlew assembleDebug     # Debug APK
-./gradlew test              # Unit tests
+./gradlew test                   # tests unitarios (lógica de dominio)
+./gradlew connectedAndroidTest   # tests de UI (requiere emulador o dispositivo)
 ```
 
-## 🗺️ Roadmap
+Los tests unitarios cubren estadísticas, entrenamiento en curso, editor de rutinas, grupos musculares, conversión de unidades y exportación CSV. Los tests instrumentados validan el flujo principal de la aplicación.
 
-- [ ] [Planned feature 1]
-- [ ] [Planned feature 2]
-- [ ] Data export / backup
-- [ ] Dark / light theme polish
-- [ ] Google Play release
+## Hoja de ruta
 
-## 🤝 Contributing
+- Imágenes o animaciones de ejercicios con licencia libre.
+- Aviso sonoro o vibración al terminar el descanso y notificación de la sesión en curso.
+- Superseries, notas por ejercicio y entrenamientos programados.
+- Configuración de firma de la APK (ver `app/build.gradle.kts`) y publicación de releases.
 
-Contributions, issues and feature requests are welcome. Feel free to open an
-[issue](https://github.com/Karm0na/Lify/issues) or submit a pull request.
+## Contribuciones
 
-## 📄 License
+Las sugerencias y los reportes de errores son bienvenidos a través de [Issues](https://github.com/Karm0na/Lify/issues). Para proponer cambios, abre un Pull Request describiendo la modificación.
 
-[Choose a license, e.g. MIT.] See `LICENSE` for details.
+## Licencia
 
-## 👤 Author
+Pendiente de definir. Hasta que se añada un archivo `LICENSE`, todos los derechos están reservados.
 
-**Karm0na** · [GitHub](https://github.com/Karm0na)
+## Autor
+
+**Karm0na** - [github.com/Karm0na](https://github.com/Karm0na)
