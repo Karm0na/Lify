@@ -118,9 +118,28 @@ Los tests unitarios cubren estadísticas, entrenamiento en curso, editor de ruti
 
 Las sugerencias y los reportes de errores son bienvenidos a través de [Issues](https://github.com/Karm0na/Lify/issues). Para proponer cambios, abre un Pull Request describiendo la modificación.
 
-## Licencia
+## 📄 Copyright & License
 
-Pendiente de definir. Hasta que se añada un archivo `LICENSE`, todos los derechos están reservados.
+Copyright © 2026 Karm0na. All rights reserved except as granted below.
+
+This project is licensed under the
+[Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to:
+
+- **Use, copy and modify** the code for any purpose except commercial ones.
+- **Redistribute** the code, original or modified, in any medium or format.
+
+Under the following terms:
+
+- **Attribution**: if you redistribute this code or a derivative of it, you must give
+  appropriate credit to the original author (**Karm0na**), provide a link to this
+  repository (https://github.com/Karm0na/Lify) and indicate if changes were made.
+- **NonCommercial**: you may not use this code, or any derivative of it, for commercial
+  purposes. No money may be made from it, whether by selling it, monetizing an app
+  built from it, charging for access, or including it in a paid product or service.
+
+See the [LICENSE](LICENSE) file for the full legal text.
 
 ## Autor
 
