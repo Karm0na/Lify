@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lify.LifyApp
+import com.example.lify.data.IdiomaApp
 import com.example.lify.data.TemaApp
 import com.example.lify.domain.TipoMedida
 import com.example.lify.domain.UnidadPeso
@@ -34,6 +35,7 @@ class PerfilViewModel(app: Application) : AndroidViewModel(app) {
     val nombre: StateFlow<String> = prefs.nombre
     val unidad: StateFlow<UnidadPeso> = prefs.unidad
     val tema: StateFlow<TemaApp> = prefs.tema
+    val idioma: StateFlow<IdiomaApp> = prefs.idioma
 
     val medidas: StateFlow<List<Medida>> =
         repo.medidas.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
@@ -57,6 +59,8 @@ class PerfilViewModel(app: Application) : AndroidViewModel(app) {
     fun cambiarUnidad(valor: UnidadPeso) = prefs.cambiarUnidad(valor)
 
     fun cambiarTema(valor: TemaApp) = prefs.cambiarTema(valor)
+
+    fun cambiarIdioma(valor: IdiomaApp) = prefs.cambiarIdioma(valor)
 
     /** [valor] viene en la unidad que ve el usuario; el peso corporal se guarda siempre en kg. */
     fun agregarMedida(tipo: TipoMedida, valor: Double) {

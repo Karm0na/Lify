@@ -15,6 +15,7 @@ import com.example.lify.domain.quitarSerie
 import com.example.lify.domain.saltarDescanso
 import com.example.lify.domain.seriesCompletadas
 import com.example.lify.domain.sumarDescanso
+import com.example.lify.domain.volumenKg
 import com.example.lify.model.SerieHecha
 import com.example.lify.model.SesionActiva
 import org.junit.Assert.assertEquals
@@ -155,5 +156,22 @@ class EntrenamientoTest {
         // Si el descanso ya terminó, sumar parte de "ahora".
         val c = a.sumarDescanso(100_000L, 30)
         assertEquals(130_000L, c.descansoFin)
+    }
+
+    @Test
+    fun elVolumenSoloCuentaLasSeriesMarcadasYSiempreEnKg() {
+        // 3 series de 10 x 80 kg; solo marcamos dos: 2 x (10 x 80) = 1600 kg.
+        var s = sesion(series = 3, pesoKg = 80.0, reps = 10)
+        assertEquals(0.0, s.volumenKg(), 1e-9)
+        val e = s.ejercicios.single()
+        s = s.alternarSerie(e.clave, e.series[0].id, 0L).first
+        s = s.alternarSerie(e.clave, e.series[1].id, 0L).first
+        assertEquals(1600.0, s.volumenKg(), 1e-9)
+
+        // Con libras (176.37 lb ≈ 80 kg) el volumen sigue saliendo en kg.
+        var l = sesion(series = 1, pesoKg = 80.0, reps = 10, unidad = UnidadPeso.LB)
+        val el = l.ejercicios.single()
+        l = l.alternarSerie(el.clave, el.series[0].id, 0L).first
+        assertEquals(800.0, l.volumenKg(), 1.0)
     }
 }

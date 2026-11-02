@@ -23,6 +23,14 @@ class Preferencias(context: Context) {
     )
     val tema: StateFlow<TemaApp> = _tema.asStateFlow()
 
+    private val _idioma = MutableStateFlow(IdiomaApp.desdeCodigo(sp.getString(IdiomaApp.CLAVE, null)))
+    val idioma: StateFlow<IdiomaApp> = _idioma.asStateFlow()
+
+    fun cambiarIdioma(valor: IdiomaApp) {
+        sp.edit().putString(IdiomaApp.CLAVE, valor.codigo).apply()
+        _idioma.value = valor
+    }
+
     fun cambiarNombre(valor: String) {
         val limpio = valor.trim().take(40)
         sp.edit().putString(CLAVE_NOMBRE, limpio).apply()

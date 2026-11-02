@@ -1,146 +1,63 @@
-# Lify
+# 🏋️ Lify — Gym Tracker para Android
 
-Aplicación Android nativa para el registro de entrenamientos de gimnasio: rutinas personalizables, seguimiento serie a serie, estadísticas de progreso y copia de seguridad de los datos. Funciona sin conexión y sin cuentas de usuario.
+App nativa (Kotlin + Jetpack Compose, tema oscuro con acento naranja) para registrar entrenamientos de gimnasio: crea tus rutinas, entrena registrando cada serie y consulta tu progreso.
 
-![Plataforma](https://img.shields.io/badge/plataforma-Android%208.0%2B-3DDC84?logo=android&logoColor=white)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.9.24-7F52FF?logo=kotlin&logoColor=white)
-![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white)
-![Estado](https://img.shields.io/badge/estado-en%20desarrollo-orange)
+## Funcionalidades
 
-## Capturas de pantalla
-
-<p align="center">
-  <img src="docs/screenshots/screenshot_1.jpg" width="22%" alt="Pantalla 1" />
-  <img src="docs/screenshots/screenshot_2.jpg" width="22%" alt="Pantalla 2" />
-  <img src="docs/screenshots/screenshot_3.jpg" width="22%" alt="Pantalla 3" />
-  <img src="docs/screenshots/screenshot_4.jpg" width="22%" alt="Pantalla 4" />
-</p>
-
-## Características
-
-### Rutinas
-- Catálogo de 150 ejercicios organizados en 13 grupos musculares, con buscador, filtro por grupo y favoritos.
-- Creación, edición, reordenación y eliminación de rutinas propias.
-- Configuración por ejercicio: series, peso y repeticiones.
-- Temporizador de descanso configurable por rutina (de 30 s a 5 min).
-- Rutinas preconfiguradas (Arnold Split, 3 días).
-
-### Entrenamiento
-- Inicio desde una rutina o como entrenamiento vacío.
-- Marcado de series con arranque automático del descanso y edición de peso y repeticiones durante la sesión.
-- Peso y repeticiones del último entrenamiento como referencia.
-- Recuperación del entrenamiento en curso si el sistema cierra la aplicación.
-
-### Estadísticas
-- Días entrenados de la semana y distribución del volumen por grupo muscular.
-- Mapa corporal coloreado según el volumen trabajado.
-- Filtro por periodo: 7 días, 30 días, 6 meses, 1 año o histórico completo.
-- Progreso por ejercicio: peso máximo, volumen y 1RM estimado.
-- Historial de entrenamientos.
-
-### Perfil y datos
-- Racha semanal, número de entrenamientos y medidas corporales con historial.
-- Unidades kg/lb y tema oscuro, claro o del sistema.
-- Copia de seguridad en JSON (exportación y restauración) y exportación a CSV.
+- **Rutinas**: crea rutinas propias eligiendo ejercicios de un catálogo de 150 (con buscador, filtro por grupo muscular y favoritos), o añade rutinas preconfiguradas (Arnold Split, 3 días). Edita, reordena y elimina rutinas.
+- **Configuración por ejercicio**: series, peso y repeticiones, más un temporizador de descanso por rutina (de 30 s a 5 min).
+- **Entrenar**: empieza una rutina o un entrenamiento vacío. Marca series (arranca el descanso), edita peso/reps al vuelo y ve el peso/reps del último entrenamiento como referencia. Si Android cierra la app, el entrenamiento en curso se recupera.
+- **Estadísticas** (con datos reales): días entrenados de la semana, mapa de músculos coloreado según el volumen, distribución por grupo muscular, filtro por periodo (7 días, 30 días, 6 meses, 1 año, todo), progreso por ejercicio (peso máximo, volumen, 1RM estimado) e historial de entrenamientos.
+- **Perfil**: nombre, racha en semanas, nº de entrenamientos, medidas corporales con historial, unidades kg/lb y tema oscuro/claro/sistema.
+- **Datos**: copia de seguridad en JSON (exportar/restaurar) y exportación a CSV.
 - Idiomas: español (por defecto) e inglés.
 
-## Stack tecnológico
+## Diseño visual
 
-| Área | Tecnología |
-| --- | --- |
-| Lenguaje | Kotlin 1.9.24 |
-| Interfaz | Jetpack Compose (BOM 2024.06.00), Material 3 |
-| Navegación | Navigation Compose 2.7.7 |
-| Persistencia | Room 2.6.1 |
-| Concurrencia | Kotlin Coroutines 1.8.1 |
-| Serialización | Gson 2.10.1 |
-| Build | Gradle (Kotlin DSL), Android Gradle Plugin 8.6.0, version catalog |
-| Testing | JUnit 4, Espresso, Compose UI Test |
+- Tipografía **Inter** incluida en `res/font` (licencia OFL en `LICENSE-Inter.txt`).
+- Cuerpo anatómico vectorial (frente y espalda) en `ui/components/CuerpoFormas.kt`: cada músculo es una forma
+  independiente que se ilumina según el volumen trabajado. Se usa en el mapa de estadísticas, en las tarjetas de
+  rutina (mini-mapa) y en los iconos circulares de cada ejercicio.
+- Estadísticas: gráfico radar por grupo muscular, tarjeta de volumen total y curva suave de progreso.
+- Entrenar: cronómetro en vivo arriba, botón "Terminar" grande abajo, números grandes en peso/reps y volumen total
+  levantado en la sesión (se actualiza al marcar cada serie).
+- Paleta oscura en negros neutros; barra inferior compacta y cabecera común (`CabeceraPantalla`) en crear rutina y selector.
+
+## Idiomas
+
+Inglés (predeterminado), español, francés y chino simplificado. Se cambia en Perfil → Ajustes → Idioma y se recuerda.
+Las cadenas están en `res/values` (inglés), `values-es`, `values-fr` y `values-zh`; al añadir una, ponla en las cuatro.
+El catálogo de ejercicios (`res/raw/ejercicios.json`) sigue en español.
+
+## Requisitos y compilación
+
+- Android Studio Koala (2024.1) o superior, JDK 17.
+- minSdk 26 (Android 8.0), compileSdk/targetSdk 34.
+
+```bash
+./gradlew assembleDebug          # APK de depuración
+./gradlew test                   # tests unitarios (lógica de dominio)
+./gradlew connectedAndroidTest   # test de UI (requiere emulador/dispositivo)
+```
 
 ## Arquitectura
 
-El proyecto separa la lógica de dominio, la persistencia y la interfaz. La lógica de negocio (estadísticas, unidades, CSV, entrenamiento en curso) no depende de Android, lo que permite probarla con tests unitarios simples.
-
 ```
 app/src/main/java/com/example/lify/
-├── data/         Room (entidades y DAOs), repositorio, catálogo JSON,
-│                 preferencias y copia de seguridad
-├── domain/       Lógica pura sin dependencias de Android
-├── model/        Modelos compartidos (Ejercicio, Rutina, Sesion...)
-├── viewmodel/    ViewModels compartidos a nivel de Activity
-├── navigation/   Rutas y NavHost con barra de navegación inferior
-└── ui/           Pantallas y componentes Compose
-                  (gráficas y mapa muscular dibujados con Canvas)
+├── data/        Room (entidades, DAOs), repositorio, catálogo JSON, preferencias, copia de seguridad
+├── domain/      Lógica pura sin Android: estadísticas, entrenamiento en curso, unidades, CSV...
+├── model/       Modelos únicos (Ejercicio, EjercicioEnRutina, Rutina, Sesion...)
+├── viewmodel/   ViewModels compartidos por Activity (las pantallas comparten los mismos datos)
+├── navigation/  Rutas y NavHost con barra inferior
+└── ui/          Pantallas y componentes Compose (gráficas y mapa de músculos dibujados con Canvas)
 ```
 
-Decisiones de diseño:
-
-- **Base de datos:** Room con las tablas `ejercicios`, `rutinas`, `ejercicios_rutina`, `sesiones`, `series_realizadas` y `medidas`. El catálogo (`res/raw/ejercicios.json`) se carga en la base de datos en el primer arranque.
-- **Unidades:** todos los pesos se almacenan en kg; la conversión a lb es únicamente de presentación.
-- **Estado del entrenamiento:** la sesión activa se serializa como borrador con Gson, de modo que sobrevive al cierre del proceso por parte del sistema.
-- **Visualización:** las gráficas y el mapa muscular se implementan con Canvas, sin librerías de gráficos externas.
-
-## Requisitos
-
-- Android Studio Koala (2024.1) o superior
-- JDK 17
-- Dispositivo o emulador con Android 8.0 (API 26) o superior
-
-Configuración del SDK: `compileSdk` y `targetSdk` 34, `minSdk` 26.
-
-## Compilación y ejecución
-
-```bash
-git clone https://github.com/Karm0na/Lify.git
-cd Lify
-
-./gradlew assembleDebug          # genera el APK de depuración
-./gradlew installDebug           # instala en el dispositivo o emulador conectado
-```
-
-## Tests
-
-```bash
-./gradlew test                   # tests unitarios (lógica de dominio)
-./gradlew connectedAndroidTest   # tests de UI (requiere emulador o dispositivo)
-```
-
-Los tests unitarios cubren estadísticas, entrenamiento en curso, editor de rutinas, grupos musculares, conversión de unidades y exportación CSV. Los tests instrumentados validan el flujo principal de la aplicación.
+- Base de datos Room: `ejercicios`, `rutinas`, `ejercicios_rutina`, `sesiones`, `series_realizadas`, `medidas`. El catálogo (`res/raw/ejercicios.json`) se vuelca a la base de datos en el primer arranque; sus grupos musculares están normalizados a 13 grupos fijos.
+- Todos los pesos se guardan en kg; kg/lb es solo de presentación.
 
 ## Hoja de ruta
 
 - Imágenes o animaciones de ejercicios con licencia libre.
-- Aviso sonoro o vibración al terminar el descanso y notificación de la sesión en curso.
+- Sonido/vibración al acabar el descanso, notificación con la sesión en curso.
 - Superseries, notas por ejercicio y entrenamientos programados.
-- Configuración de firma de la APK (ver `app/build.gradle.kts`) y publicación de releases.
-
-## Contribuciones
-
-Las sugerencias y los reportes de errores son bienvenidos a través de [Issues](https://github.com/Karm0na/Lify/issues). Para proponer cambios, abre un Pull Request describiendo la modificación.
-
-## 📄 Copyright & License
-
-Copyright © 2026 Karm0na. All rights reserved except as granted below.
-
-This project is licensed under the
-[Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
-
-You are free to:
-
-- **Use, copy and modify** the code for any purpose except commercial ones.
-- **Redistribute** the code, original or modified, in any medium or format.
-
-Under the following terms:
-
-- **Attribution**: if you redistribute this code or a derivative of it, you must give
-  appropriate credit to the original author (**Karm0na**), provide a link to this
-  repository (https://github.com/Karm0na/Lify) and indicate if changes were made.
-- **NonCommercial**: you may not use this code, or any derivative of it, for commercial
-  purposes. No money may be made from it, whether by selling it, monetizing an app
-  built from it, charging for access, or including it in a paid product or service.
-
-See the [LICENSE](LICENSE) file for the full legal text.
-
-## Autor
-
-**Karm0na** - [github.com/Karm0na](https://github.com/Karm0na)
+- Publicación: configurar firma de la APK (ver `app/build.gradle.kts`) y generar releases.

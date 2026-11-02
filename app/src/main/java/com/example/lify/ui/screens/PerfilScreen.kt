@@ -5,6 +5,11 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import com.example.lify.ui.components.degradadoAcento
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.lify.R
+import com.example.lify.data.IdiomaApp
 import com.example.lify.data.TemaApp
 import com.example.lify.domain.TipoMedida
 import com.example.lify.domain.UnidadPeso
@@ -51,6 +57,8 @@ import com.example.lify.domain.formatearNumero
 import com.example.lify.navigation.Rutas
 import com.example.lify.ui.components.BotonSecundario
 import com.example.lify.ui.components.FilaEtiquetaValor
+import com.example.lify.ui.components.BaldosaDato
+import com.example.lify.ui.components.PildoraLify
 import com.example.lify.ui.components.TarjetaLify
 import com.example.lify.ui.components.TituloPantalla
 import com.example.lify.ui.components.TituloSeccion
@@ -67,6 +75,7 @@ fun PerfilScreen(navController: NavHostController, vm: PerfilViewModel) {
     val nombre by vm.nombre.collectAsState()
     val unidad by vm.unidad.collectAsState()
     val tema by vm.tema.collectAsState()
+    val idioma by vm.idioma.collectAsState()
     val resumen by vm.resumen.collectAsState()
     val medidas by vm.medidas.collectAsState()
     val mensaje by vm.mensaje.collectAsState()
@@ -122,13 +131,40 @@ fun PerfilScreen(navController: NavHostController, vm: PerfilViewModel) {
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = nombre.ifBlank { stringResource(R.string.nombre_por_defecto) },
-                    color = cs.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier.weight(1f)
-                )
+                val nombreMostrado = nombre.ifBlank { stringResource(R.string.nombre_por_defecto) }
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                        .background(degradadoAcento(), CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = nombreMostrado.take(1).uppercase(),
+                        color = cs.onPrimary,
+                        fontWeight = FontWeight.Black,
+                        fontSize = 26.sp
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 14.dp)
+                ) {
+                    Text(
+                        text = nombreMostrado,
+                        color = cs.onSurface,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 20.sp,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = stringResource(R.string.entrenamientos) + ": " + resumen.entrenamientos,
+                        color = cs.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
                 IconButton(onClick = {
                     textoNombre = nombre
                     editandoNombre = true
@@ -189,43 +225,44 @@ fun PerfilScreen(navController: NavHostController, vm: PerfilViewModel) {
         TituloSeccion(stringResource(R.string.ajustes))
         TarjetaLify {
             Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(stringResource(R.string.unidad_peso), color = cs.onSurfaceVariant, fontSize = 13.sp)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(stringResource(R.string.unidad_peso), color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyMedium, fontSize = 14.sp)
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                     UnidadPeso.values().forEach { u ->
-                        FilterChip(
-                            selected = unidad == u,
-                            onClick = { vm.cambiarUnidad(u) },
-                            label = { Text(u.simbolo) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = cs.primary,
-                                selectedLabelColor = cs.onPrimary
-                            )
+                        PildoraLify(
+                            texto = u.simbolo,
+                            seleccionada = unidad == u,
+                            alPulsar = { vm.cambiarUnidad(u) }
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(stringResource(R.string.tema), color = cs.onSurfaceVariant, fontSize = 13.sp)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(stringResource(R.string.tema), color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyMedium, fontSize = 14.sp)
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                     TemaApp.values().forEach { t ->
-                        FilterChip(
-                            selected = tema == t,
-                            onClick = { vm.cambiarTema(t) },
-                            label = {
-                                Text(
-                                    stringResource(
-                                        when (t) {
-                                            TemaApp.OSCURO -> R.string.tema_oscuro
-                                            TemaApp.CLARO -> R.string.tema_claro
-                                            TemaApp.SISTEMA -> R.string.tema_sistema
-                                        }
-                                    )
-                                )
-                            },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = cs.primary,
-                                selectedLabelColor = cs.onPrimary
-                            )
+                        PildoraLify(
+                            texto = stringResource(
+                                when (t) {
+                                    TemaApp.OSCURO -> R.string.tema_oscuro
+                                    TemaApp.CLARO -> R.string.tema_claro
+                                    TemaApp.SISTEMA -> R.string.tema_sistema
+                                }
+                            ),
+                            seleccionada = tema == t,
+                            alPulsar = { vm.cambiarTema(t) }
                         )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(stringResource(R.string.idioma), color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyMedium, fontSize = 14.sp)
+                IdiomaApp.values().toList().chunked(2).forEach { fila ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+                        fila.forEach { i ->
+                            PildoraLify(
+                                texto = i.nombre,
+                                seleccionada = idioma == i,
+                                alPulsar = { vm.cambiarIdioma(i) }
+                            )
+                        }
                     }
                 }
             }
@@ -257,6 +294,7 @@ fun PerfilScreen(navController: NavHostController, vm: PerfilViewModel) {
         AlertDialog(
             onDismissRequest = { editandoNombre = false },
             containerColor = cs.surface,
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.tu_nombre)) },
             text = {
                 TextField(
@@ -283,6 +321,7 @@ fun PerfilScreen(navController: NavHostController, vm: PerfilViewModel) {
         AlertDialog(
             onDismissRequest = { restaurarUri = null },
             containerColor = cs.surface,
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.restaurar_titulo)) },
             text = { Text(stringResource(R.string.restaurar_texto)) },
             confirmButton = {
@@ -300,16 +339,5 @@ fun PerfilScreen(navController: NavHostController, vm: PerfilViewModel) {
 
 @Composable
 private fun MiniTarjeta(etiqueta: String, valor: String, modifier: Modifier = Modifier) {
-    TarjetaLify(modifier = modifier) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp, horizontal = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = etiqueta, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = valor, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-        }
-    }
+    BaldosaDato(valor = valor, etiqueta = etiqueta, modifier = modifier)
 }

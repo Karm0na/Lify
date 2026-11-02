@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -44,6 +46,15 @@ import com.example.lify.ui.components.BotonPrimario
 import com.example.lify.ui.components.BotonSecundario
 import com.example.lify.ui.components.TarjetaLify
 import com.example.lify.ui.components.TituloPantalla
+import com.example.lify.ui.components.TituloSeccion
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.border
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.sp
+import com.example.lify.ui.components.AvatarGrupo
+import com.example.lify.ui.components.MiniMapaMusculos
 import com.example.lify.ui.textoDescanso
 import com.example.lify.viewmodel.EditorRutinaViewModel
 import com.example.lify.viewmodel.RutinasViewModel
@@ -75,7 +86,7 @@ fun RutinasScreen(
             .padding(16.dp)
     ) {
         TituloPantalla(stringResource(R.string.rutinas_titulo))
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -84,19 +95,29 @@ fun RutinasScreen(
             val enCurso = sesion
             if (enCurso != null) {
                 item {
-                    TarjetaLify {
+                    TarjetaLify(
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        resaltada = true
+                    ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = stringResource(R.string.entrenamiento_en_curso),
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(8.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.primary)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                TituloSeccion(stringResource(R.string.entrenamiento_en_curso))
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = enCurso.nombre,
                                 color = MaterialTheme.colorScheme.onSurface,
-                                style = MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.ExtraBold
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
                             BotonPrimario(
                                 texto = stringResource(R.string.reanudar),
                                 onClick = { navController.navigate(Rutas.SESION) },
@@ -109,11 +130,14 @@ fun RutinasScreen(
 
             if (rutinas.isEmpty()) {
                 item {
-                    Text(
-                        text = stringResource(R.string.rutinas_vacio),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(vertical = 24.dp)
-                    )
+                    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = stringResource(R.string.rutinas_vacio),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(vertical = 32.dp)
+                        )
+                    }
                 }
             }
 
@@ -129,7 +153,8 @@ fun RutinasScreen(
                         editorVm.cargar(rutina)
                         navController.navigate(Rutas.CREAR_RUTINA)
                     },
-                    alEliminar = { rutinaAEliminar = rutina }
+                    alEliminar = { rutinaAEliminar = rutina },
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
@@ -151,6 +176,7 @@ fun RutinasScreen(
                     onClick = { navController.navigate(Rutas.ANADIR_RUTINA) },
                     modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
@@ -160,6 +186,7 @@ fun RutinasScreen(
         AlertDialog(
             onDismissRequest = { pendiente = null },
             containerColor = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.ya_hay_entrenamiento_titulo)) },
             text = { Text(stringResource(R.string.ya_hay_entrenamiento_texto)) },
             confirmButton = {
@@ -180,6 +207,7 @@ fun RutinasScreen(
         AlertDialog(
             onDismissRequest = { rutinaAEliminar = null },
             containerColor = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.eliminar_rutina_titulo)) },
             text = { Text(stringResource(R.string.eliminar_rutina_texto, aEliminar.nombre)) },
             confirmButton = {
@@ -200,19 +228,32 @@ private fun RutinaCard(
     rutina: Rutina,
     alEmpezar: () -> Unit,
     alEditar: () -> Unit,
-    alEliminar: () -> Unit
+    alEliminar: () -> Unit,
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     var menu by remember { mutableStateOf(false) }
-    TarjetaLify {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = rutina.nombre,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.weight(1f)
-                )
+    TarjetaLify(modifier = modifier) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Row(verticalAlignment = Alignment.Top) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = rutina.nombre,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = stringResource(
+                            R.string.rutina_resumen,
+                            rutina.ejercicios.size,
+                            textoDescanso(rutina.descansoSegundos)
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
                 Box {
                     IconButton(onClick = { menu = true }) {
                         Icon(
@@ -224,7 +265,7 @@ private fun RutinaCard(
                     DropdownMenu(
                         expanded = menu,
                         onDismissRequest = { menu = false },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(12.dp))
                     ) {
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.editar)) },
@@ -243,26 +284,54 @@ private fun RutinaCard(
                     }
                 }
             }
+
             if (rutina.ejercicios.isNotEmpty()) {
-                Text(
-                    text = rutina.ejercicios.joinToString(", ") { it.nombre },
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Spacer(modifier = Modifier.height(14.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            rutina.ejercicios.take(4).forEach { ejercicio ->
+                                AvatarGrupo(grupo = ejercicio.grupo, tamano = 36.dp)
+                            }
+                            if (rutina.ejercicios.size > 4) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                                        .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "+${rutina.ejercicios.size - 4}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = rutina.ejercicios.joinToString(", ") { it.nombre },
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                    MiniMapaMusculos(
+                        grupos = rutina.ejercicios.map { it.grupo }.toSet(),
+                        modifier = Modifier
+                            .padding(start = 12.dp)
+                            .width(128.dp)
+                            .height(117.dp)
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = stringResource(
-                    R.string.rutina_resumen,
-                    rutina.ejercicios.size,
-                    textoDescanso(rutina.descansoSegundos)
-                ),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodySmall
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+
+            Spacer(modifier = Modifier.height(20.dp))
             BotonPrimario(
                 texto = stringResource(R.string.empezar_rutina),
                 onClick = alEmpezar,

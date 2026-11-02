@@ -102,6 +102,10 @@ fun SesionActiva.descansoRestante(ahora: Long): Long? =
 
 fun SesionActiva.seriesCompletadas(): Int = ejercicios.sumOf { e -> e.series.count { it.completada } }
 
+/** Volumen total levantado en la sesión (kg × repeticiones) contando solo las series marcadas, siempre en kg. */
+fun SesionActiva.volumenKg(): Double =
+    aRealizados().sumOf { e -> e.series.sumOf { it.peso * it.repeticiones } }
+
 /** Series que se guardarán: solo las marcadas y con repeticiones. Los pesos vuelven a kg. */
 fun SesionActiva.aRealizados(): List<EjercicioRealizado> {
     val u = UnidadPeso.desdeNombre(unidad)

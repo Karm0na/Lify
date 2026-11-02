@@ -2,6 +2,9 @@ package com.example.lify.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,10 +50,12 @@ import com.example.lify.R
 import com.example.lify.domain.ErrorEditor
 import com.example.lify.domain.OPCIONES_DESCANSO
 import com.example.lify.navigation.Rutas
+import com.example.lify.ui.components.CabeceraPantalla
 import com.example.lify.ui.components.AvatarGrupo
 import com.example.lify.ui.components.BotonSecundario
 import com.example.lify.ui.components.CampoNumero
 import com.example.lify.ui.components.TarjetaLify
+import com.example.lify.ui.components.TituloSeccion
 import com.example.lify.ui.components.colorCampo
 import com.example.lify.ui.etiquetaRes
 import com.example.lify.ui.textoDescanso
@@ -74,49 +79,24 @@ fun CrearRutinaScreen(
     Scaffold(
         containerColor = cs.background,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(
-                            if (estado.rutinaId == null) R.string.crear_rutina else R.string.editar_rutina
-                        ),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    Text(
-                        text = stringResource(R.string.cancelar),
-                        color = cs.primary,
-                        modifier = Modifier
-                            .clickable { navController.popBackStack() }
-                            .padding(12.dp)
-                    )
-                },
-                actions = {
-                    Text(
-                        text = stringResource(R.string.guardar),
-                        color = cs.primary,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .clickable {
-                                editorVm.guardar { error ->
-                                    when (error) {
-                                        null -> navController.popBackStack(Rutas.RUTINAS, false)
-                                        ErrorEditor.SIN_NOMBRE ->
-                                            Toast.makeText(contexto, errorNombre, Toast.LENGTH_SHORT).show()
-                                        ErrorEditor.SIN_EJERCICIOS ->
-                                            Toast.makeText(contexto, errorEjercicios, Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            }
-                            .padding(12.dp)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = cs.background,
-                    titleContentColor = cs.onBackground
-                )
+            CabeceraPantalla(
+                titulo = stringResource(
+                    if (estado.rutinaId == null) R.string.crear_rutina else R.string.editar_rutina
+                ),
+                descripcionCerrar = stringResource(R.string.cancelar),
+                alCerrar = { navController.popBackStack() },
+                textoAccion = stringResource(R.string.guardar),
+                alAccion = {
+                    editorVm.guardar { error ->
+                        when (error) {
+                            null -> navController.popBackStack(Rutas.RUTINAS, false)
+                            ErrorEditor.SIN_NOMBRE ->
+                                Toast.makeText(contexto, errorNombre, Toast.LENGTH_SHORT).show()
+                            ErrorEditor.SIN_EJERCICIOS ->
+                                Toast.makeText(contexto, errorEjercicios, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             )
         }
     ) { padding ->
@@ -135,7 +115,10 @@ fun CrearRutinaScreen(
                     singleLine = true,
                     placeholder = { Text(stringResource(R.string.titulo_rutina)) },
                     colors = colorCampo(),
-                    modifier = Modifier.fillMaxWidth()
+                    shape = RoundedCornerShape(18.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, cs.outline, RoundedCornerShape(18.dp))
                 )
             }
 
@@ -145,8 +128,11 @@ fun CrearRutinaScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(cs.surface)
+                            .border(1.dp, cs.outline.copy(alpha = 0.7f), RoundedCornerShape(16.dp))
                             .clickable { menuDescanso = true }
-                            .padding(vertical = 8.dp)
+                            .padding(horizontal = 16.dp, vertical = 14.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.temporizador_descanso) + " ",
@@ -163,7 +149,7 @@ fun CrearRutinaScreen(
                     DropdownMenu(
                         expanded = menuDescanso,
                         onDismissRequest = { menuDescanso = false },
-                        modifier = Modifier.background(cs.surfaceVariant)
+                        modifier = Modifier.background(cs.surfaceVariant, RoundedCornerShape(12.dp))
                     ) {
                         OPCIONES_DESCANSO.forEach { segundos ->
                             DropdownMenuItem(
@@ -191,7 +177,8 @@ fun CrearRutinaScreen(
                                 Text(
                                     text = e.nombre,
                                     color = cs.onSurface,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Text(
                                     text = stringResource(e.grupo.etiquetaRes()),

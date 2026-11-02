@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -16,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -52,6 +55,7 @@ import com.example.lify.domain.parsearNumero
 import com.example.lify.model.Medida
 import com.example.lify.ui.components.BotonPrimario
 import com.example.lify.ui.components.GraficaLineas
+import com.example.lify.ui.components.PildoraLify
 import com.example.lify.ui.components.TarjetaLify
 import com.example.lify.ui.components.colorCampo
 import com.example.lify.ui.etiquetaRes
@@ -134,26 +138,34 @@ fun MedidasScreen(navController: NavHostController, vm: PerfilViewModel) {
                             )
                         }
                         if (registros.size >= 2) {
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
                             GraficaLineas(
                                 registros.reversed().map { if (tipo.esPeso) unidad.desdeKg(it.valor) else it.valor }
                             )
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Divider(color = cs.outline, thickness = 0.5.dp)
                         Spacer(modifier = Modifier.height(4.dp))
                         registros.take(8).forEach { m ->
-                            Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp)
+                            ) {
                                 Text(
                                     text = DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(m.fecha)),
                                     color = cs.onSurfaceVariant,
-                                    fontSize = 13.sp,
-                                    modifier = Modifier.weight(1f)
+                                    style = MaterialTheme.typography.labelSmall,
+                                    modifier = Modifier.width(90.dp)
                                 )
-                                Text(text = valorMostrado(m, unidad), color = cs.onSurface, fontSize = 13.sp)
+                                Text(text = valorMostrado(m, unidad), color = cs.onSurface, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
                                 IconButton(onClick = { vm.eliminarMedida(m.id) }) {
                                     Icon(
                                         Icons.Default.Delete,
                                         contentDescription = stringResource(R.string.eliminar),
-                                        tint = cs.onSurfaceVariant
+                                        tint = cs.onSurfaceVariant,
+                                        modifier = Modifier.size(20.dp)
                                     )
                                 }
                             }
@@ -196,14 +208,10 @@ private fun DialogoNuevaMedida(
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(TipoMedida.values().toList()) { t ->
-                        FilterChip(
-                            selected = tipo == t,
-                            onClick = { tipo = t },
-                            label = { Text(stringResource(t.etiquetaRes())) },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = cs.primary,
-                                selectedLabelColor = cs.onPrimary
-                            )
+                        PildoraLify(
+                            texto = stringResource(t.etiquetaRes()),
+                            seleccionada = tipo == t,
+                            alPulsar = { tipo = t }
                         )
                     }
                 }

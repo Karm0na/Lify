@@ -2,6 +2,7 @@ package com.example.lify.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,8 +21,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import com.example.lify.ui.etiquetaRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -58,15 +62,23 @@ import com.example.lify.domain.formatearDuracion
 import com.example.lify.domain.formatearNumero
 import com.example.lify.domain.referenciaDe
 import com.example.lify.domain.seriesCompletadas
+import com.example.lify.domain.volumenKg
 import com.example.lify.model.EjercicioActivo
 import com.example.lify.model.SesionActiva
 import com.example.lify.navigation.Rutas
 import com.example.lify.ui.components.AvatarGrupo
 import com.example.lify.ui.components.BotonPrimario
 import com.example.lify.ui.components.BotonSecundario
+import com.example.lify.ui.components.BaldosaDato
+import com.example.lify.ui.components.BarraProgreso
 import com.example.lify.ui.components.CampoNumero
+import com.example.lify.ui.components.degradadoAcento
 import com.example.lify.ui.components.TarjetaLify
-import com.example.lify.ui.etiquetaRes
+import com.example.lify.ui.components.TituloSeccion
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.Surface
+import androidx.compose.ui.graphics.Color
 import com.example.lify.viewmodel.SesionViewModel
 import kotlinx.coroutines.delay
 
@@ -100,15 +112,39 @@ fun SesionScreen(
     val avisoRepeticiones = stringResource(R.string.aviso_repeticiones)
     val avisoGuardado = stringResource(R.string.entrenamiento_guardado)
     val unidad = UnidadPeso.desdeNombre(actual.unidad)
+    val terminarEntrenamiento: () -> Unit = {
+        sesionVm.terminar { guardado ->
+            if (guardado) {
+                Toast.makeText(contexto, avisoGuardado, Toast.LENGTH_SHORT).show()
+                navController.popBackStack(Rutas.RUTINAS, false)
+            } else {
+                dialogoSinSeries = true
+            }
+        }
+    }
 
     Scaffold(
         containerColor = cs.background,
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(cs.background)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                BotonPrimario(
+                    texto = stringResource(R.string.terminar),
+                    onClick = terminarEntrenamiento,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
         topBar = {
             TopAppBar(
                 title = {
                     Text(
                         text = actual.nombre,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1
                     )
@@ -119,23 +155,30 @@ fun SesionScreen(
                     }
                 },
                 actions = {
-                    Text(
-                        text = stringResource(R.string.terminar),
-                        color = cs.primary,
-                        fontWeight = FontWeight.Bold,
+                    // Cronómetro en vivo: lo primero que se mira al entrenar.
+                    Row(
                         modifier = Modifier
-                            .clickable {
-                                sesionVm.terminar { guardado ->
-                                    if (guardado) {
-                                        Toast.makeText(contexto, avisoGuardado, Toast.LENGTH_SHORT).show()
-                                        navController.popBackStack(Rutas.RUTINAS, false)
-                                    } else {
-                                        dialogoSinSeries = true
-                                    }
-                                }
-                            }
-                            .padding(12.dp)
-                    )
+                            .padding(end = 12.dp)
+                            .clip(RoundedCornerShape(50))
+                            .background(cs.surfaceVariant, RoundedCornerShape(50))
+                            .border(1.dp, cs.outline, RoundedCornerShape(50))
+                            .padding(horizontal = 14.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(cs.primary)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = formatearDuracion((ahora - actual.inicio) / 1000),
+                            color = cs.onSurface,
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = cs.background,
@@ -201,6 +244,7 @@ fun SesionScreen(
         AlertDialog(
             onDismissRequest = { dialogoSinSeries = false },
             containerColor = cs.surface,
+            shape = RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.sin_series_titulo)) },
             text = { Text(stringResource(R.string.sin_series_texto)) },
             confirmButton = {
@@ -219,6 +263,7 @@ fun SesionScreen(
         AlertDialog(
             onDismissRequest = { dialogoCancelar = false },
             containerColor = cs.surface,
+            shape = RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.cancelar_entrenamiento_titulo)) },
             text = { Text(stringResource(R.string.cancelar_entrenamiento_texto)) },
             confirmButton = {
@@ -236,56 +281,77 @@ fun SesionScreen(
 
 @Composable
 private fun ResumenSesion(sesion: SesionActiva, ahora: Long) {
-    TarjetaLify {
+    val hechas = sesion.seriesCompletadas()
+    val total = sesion.ejercicios.sumOf { it.series.size }
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            DatoResumen(stringResource(R.string.duracion), formatearDuracion((ahora - sesion.inicio) / 1000))
-            DatoResumen(stringResource(R.string.series_hechas), sesion.seriesCompletadas().toString())
+            BaldosaDato(
+                valor = formatearDuracion((ahora - sesion.inicio) / 1000),
+                etiqueta = stringResource(R.string.duracion),
+                modifier = Modifier.weight(1f)
+            )
+            BaldosaDato(
+                valor = if (total > 0) "$hechas/$total" else hechas.toString(),
+                etiqueta = stringResource(R.string.series_hechas),
+                modifier = Modifier.weight(1f)
+            )
         }
-    }
-}
-
-@Composable
-private fun DatoResumen(etiqueta: String, valor: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = valor, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, fontSize = 22.sp)
-        Text(text = etiqueta, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp)
+        // Volumen levantado: crece en vivo al marcar cada serie.
+        val unidad = UnidadPeso.desdeNombre(sesion.unidad)
+        BaldosaDato(
+            valor = formatearNumero(unidad.desdeKg(sesion.volumenKg()), 0) + " " + unidad.simbolo,
+            etiqueta = stringResource(R.string.volumen_levantado),
+            modifier = Modifier.fillMaxWidth()
+        )
+        if (total > 0) {
+            BarraProgreso(fraccion = hechas.toFloat() / total.toFloat())
+        }
     }
 }
 
 @Composable
 private fun TarjetaDescanso(restante: Long, alSumar: () -> Unit, alSaltar: () -> Unit) {
     val cs = MaterialTheme.colorScheme
-    TarjetaLify {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.descanso),
-                    color = cs.onSurfaceVariant,
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = if (restante > 0) formatearDuracion(restante) else stringResource(R.string.descanso_terminado),
-                    color = cs.primary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp
-                )
+    val enDescanso = restante > 0
+    val forma = RoundedCornerShape(20.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(forma)
+            .background(degradadoAcento(), forma)
+            .padding(horizontal = 20.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(R.string.descanso).uppercase(),
+                color = cs.onPrimary.copy(alpha = 0.7f),
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Black,
+                letterSpacing = 1.2.sp
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = if (enDescanso) formatearDuracion(restante) else stringResource(R.string.descanso_terminado),
+                color = cs.onPrimary,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.ExtraBold
+            )
+        }
+        if (enDescanso) {
+            TextButton(onClick = alSumar) {
+                Text(stringResource(R.string.mas_15_s), color = cs.onPrimary, fontWeight = FontWeight.Bold)
             }
-            if (restante > 0) {
-                TextButton(onClick = alSumar) { Text(stringResource(R.string.mas_15_s)) }
-            }
-            TextButton(onClick = alSaltar) {
-                Text(stringResource(if (restante > 0) R.string.saltar else R.string.cerrar))
-            }
+        }
+        TextButton(onClick = alSaltar) {
+            Text(
+                stringResource(if (enDescanso) R.string.saltar else R.string.cerrar),
+                color = cs.onPrimary,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -300,59 +366,114 @@ private fun TarjetaEjercicioActivo(
     val cs = MaterialTheme.colorScheme
     val grupo = GrupoMuscular.desdeNombre(ejercicio.grupo)
     TarjetaLify {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                AvatarGrupo(grupo, tamano = 36.dp)
+                AvatarGrupo(grupo, tamano = 52.dp)
                 Column(
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 12.dp)
                 ) {
-                    Text(text = ejercicio.nombre, color = cs.onSurface, style = MaterialTheme.typography.bodyLarge)
+                    Text(text = ejercicio.nombre, color = cs.onSurface, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                     Text(
                         text = stringResource(grupo.etiquetaRes()),
-                        color = cs.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodySmall
+                        color = cs.onSurface,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Medium
                     )
                 }
                 IconButton(onClick = { sesionVm.quitarEjercicio(ejercicio.clave) }) {
-                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.quitar), tint = cs.error)
+                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.quitar), tint = cs.onSurfaceVariant)
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                CabeceraColumna(stringResource(R.string.col_serie), Modifier.width(32.dp))
-                CabeceraColumna(stringResource(R.string.col_anterior), Modifier.weight(1.2f))
-                CabeceraColumna(stringResource(R.string.peso_unidad, unidad.simbolo), Modifier.weight(1f))
-                CabeceraColumna(stringResource(R.string.reps), Modifier.weight(1f))
-                Spacer(modifier = Modifier.width(44.dp))
+            Spacer(modifier = Modifier.height(14.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(horizontal = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.col_serie),
+                    color = cs.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.width(24.dp)
+                )
+                Text(
+                    text = stringResource(R.string.col_anterior),
+                    color = cs.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(0.9f)
+                )
+                Text(
+                    text = stringResource(R.string.peso_unidad, unidad.simbolo),
+                    color = cs.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = stringResource(R.string.reps),
+                    color = cs.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(46.dp))
             }
 
             ejercicio.series.forEachIndexed { indice, serie ->
                 val ref = ejercicio.referenciaDe(indice)
                 val textoRef = if (ref == null) "-"
                 else "${formatearNumero(unidad.desdeKg(ref.peso))}×${ref.repeticiones}"
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = (indice + 1).toString(),
-                        color = cs.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.width(32.dp)
-                    )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 6.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(if (serie.completada) cs.primary.copy(alpha = 0.12f) else Color.Transparent)
+                        .border(
+                            1.dp,
+                            if (serie.completada) cs.primary.copy(alpha = 0.55f) else Color.Transparent,
+                            RoundedCornerShape(16.dp)
+                        )
+                        .padding(horizontal = 4.dp, vertical = 6.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .background(if (serie.completada) cs.primary.copy(alpha = 0.25f) else cs.surfaceVariant),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = (indice + 1).toString(),
+                            color = if (serie.completada) cs.primary else cs.onSurfaceVariant,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.ExtraBold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                     Text(
                         text = textoRef,
                         color = cs.onSurfaceVariant,
-                        fontSize = 13.sp,
+                        style = MaterialTheme.typography.labelSmall,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.weight(1.2f)
+                        modifier = Modifier.weight(0.9f)
                     )
                     CampoNumero(
                         valor = serie.peso,
                         alCambiar = { sesionVm.cambiarPeso(ejercicio.clave, serie.id, it) },
                         sugerencia = ref?.let { formatearNumero(unidad.desdeKg(it.peso)) } ?: "0",
                         decimal = true,
+                        grande = true,
+                        completada = serie.completada,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 4.dp)
@@ -361,6 +482,8 @@ private fun TarjetaEjercicioActivo(
                         valor = serie.reps,
                         alCambiar = { sesionVm.cambiarReps(ejercicio.clave, serie.id, it) },
                         sugerencia = ref?.repeticiones?.toString() ?: "0",
+                        grande = true,
+                        completada = serie.completada,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 4.dp)
@@ -368,46 +491,59 @@ private fun TarjetaEjercicioActivo(
                     Box(
                         modifier = Modifier
                             .padding(start = 4.dp)
-                            .size(40.dp)
+                            .size(42.dp)
                             .clip(CircleShape)
-                            .background(if (serie.completada) cs.primary else cs.surfaceVariant)
-                            .clickable {
-                                if (!sesionVm.alternarSerie(ejercicio.clave, serie.id)) alFallarMarcar()
-                            },
+                            .then(
+                                if (serie.completada) Modifier.background(degradadoAcento(), CircleShape)
+                                else Modifier.border(1.5.dp, cs.onSurfaceVariant.copy(alpha = 0.45f), CircleShape)
+                            )
+                            .clickable { if (!sesionVm.alternarSerie(ejercicio.clave, serie.id)) alFallarMarcar() },
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            Icons.Default.Check,
-                            contentDescription = stringResource(R.string.marcar_serie),
-                            tint = if (serie.completada) cs.onPrimary else cs.onSurfaceVariant
-                        )
+                        if (serie.completada) {
+                            Icon(
+                                Icons.Default.Check,
+                                contentDescription = stringResource(R.string.marcar_serie),
+                                tint = cs.onPrimary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                TextButton(onClick = { sesionVm.anadirSerie(ejercicio.clave) }) {
-                    Text(stringResource(R.string.anadir_serie))
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+                Surface(
+                    onClick = { sesionVm.anadirSerie(ejercicio.clave) },
+                    shape = RoundedCornerShape(14.dp),
+                    color = cs.primary.copy(alpha = 0.12f),
+                    border = BorderStroke(1.dp, cs.primary.copy(alpha = 0.5f)),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(vertical = 12.dp)) {
+                        Icon(Icons.Default.Add, contentDescription = null, tint = cs.primary, modifier = Modifier.size(20.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(stringResource(R.string.anadir_serie), color = cs.primary, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.ExtraBold)
+                    }
                 }
                 val ultima = ejercicio.series.lastOrNull()
                 if (ultima != null) {
-                    TextButton(onClick = { sesionVm.quitarSerie(ejercicio.clave, ultima.id) }) {
-                        Text(stringResource(R.string.quitar_serie), color = cs.onSurfaceVariant)
+                    Surface(
+                        onClick = { sesionVm.quitarSerie(ejercicio.clave, ultima.id) },
+                        shape = RoundedCornerShape(14.dp),
+                        color = Color.Transparent,
+                        border = BorderStroke(1.dp, cs.outline),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(vertical = 12.dp)) {
+                            Icon(Icons.Default.Remove, contentDescription = null, tint = cs.onSurfaceVariant, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(stringResource(R.string.quitar_serie), color = cs.onSurface, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                        }
                     }
                 }
             }
         }
     }
-}
-
-@Composable
-private fun CabeceraColumna(texto: String, modifier: Modifier) {
-    Text(
-        text = texto,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        fontSize = 11.sp,
-        textAlign = TextAlign.Center,
-        modifier = modifier
-    )
 }

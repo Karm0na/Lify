@@ -1,11 +1,24 @@
 package com.example.lify.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -121,30 +134,56 @@ fun LifyNavegacion() {
     }
 }
 
+/** Barra inferior compacta y plana: icono pequeño, etiqueta mínima y una cápsula fina en la pestaña activa. */
 @Composable
 private fun BarraInferior(navController: NavHostController, rutaActual: String?) {
     val cs = MaterialTheme.colorScheme
-    NavigationBar(containerColor = cs.background, tonalElevation = 0.dp) {
-        PESTANAS.forEach { pestana ->
-            NavigationBarItem(
-                selected = rutaActual == pestana.ruta,
-                onClick = {
-                    navController.navigate(pestana.ruta) {
-                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                icon = { Icon(painterResource(pestana.icono), contentDescription = null) },
-                label = { Text(stringResource(pestana.etiqueta)) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = cs.primary,
-                    selectedTextColor = cs.primary,
-                    unselectedIconColor = cs.onSurfaceVariant,
-                    unselectedTextColor = cs.onSurfaceVariant,
-                    indicatorColor = Color.Transparent
-                )
-            )
+    Column(modifier = Modifier.fillMaxWidth().background(cs.background)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(cs.outline.copy(alpha = 0.6f))
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            PESTANAS.forEach { pestana ->
+                val activa = rutaActual == pestana.ruta
+                val formaItem = RoundedCornerShape(16.dp)
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(formaItem)
+                        .background(if (activa) cs.primary.copy(alpha = 0.14f) else Color.Transparent)
+                        .clickable {
+                            navController.navigate(pestana.ruta) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                        .padding(vertical = 4.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        painter = painterResource(pestana.icono),
+                        contentDescription = null,
+                        modifier = Modifier.size(22.dp),
+                        tint = if (activa) cs.primary else cs.onSurfaceVariant
+                    )
+                    Text(
+                        text = stringResource(pestana.etiqueta),
+                        color = if (activa) cs.primary else cs.onSurfaceVariant,
+                        fontSize = 10.sp,
+                        lineHeight = 12.sp,
+                        fontWeight = if (activa) FontWeight.ExtraBold else FontWeight.Medium
+                    )
+                }
+            }
         }
     }
 }

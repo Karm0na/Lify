@@ -1,6 +1,10 @@
 package com.example.lify.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,7 +45,11 @@ import com.example.lify.R
 import com.example.lify.domain.GrupoMuscular
 import com.example.lify.domain.normalizarBusqueda
 import com.example.lify.ui.components.AvatarGrupo
+import com.example.lify.ui.components.CabeceraPantalla
+import com.example.lify.ui.components.PildoraLify
+import com.example.lify.ui.components.degradadoAcento
 import com.example.lify.ui.components.colorCampo
+import com.example.lify.ui.components.colorDeGrupo
 import com.example.lify.ui.etiquetaRes
 import com.example.lify.viewmodel.EjerciciosViewModel
 
@@ -74,38 +82,13 @@ fun SelectorEjerciciosScreen(
     Scaffold(
         containerColor = cs.background,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.elegir_ejercicios),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    Text(
-                        text = stringResource(R.string.cancelar),
-                        color = cs.primary,
-                        modifier = Modifier
-                            .clickable { alCancelar() }
-                            .padding(12.dp)
-                    )
-                },
-                actions = {
-                    Text(
-                        text = if (seleccionados.isEmpty()) stringResource(R.string.aceptar)
-                        else stringResource(R.string.aceptar_n, seleccionados.size),
-                        color = cs.primary,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .clickable { alAceptar(seleccionados) }
-                            .padding(12.dp)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = cs.background,
-                    titleContentColor = cs.onBackground
-                )
+            CabeceraPantalla(
+                titulo = stringResource(R.string.elegir_ejercicios),
+                descripcionCerrar = stringResource(R.string.cancelar),
+                alCerrar = alCancelar,
+                textoAccion = if (seleccionados.isEmpty()) stringResource(R.string.aceptar)
+                else stringResource(R.string.aceptar_n, seleccionados.size),
+                alAccion = { alAceptar(seleccionados) }
             )
         }
     ) { padding ->
@@ -122,9 +105,11 @@ fun SelectorEjerciciosScreen(
                 placeholder = { Text(stringResource(R.string.buscar)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 colors = colorCampo(),
+                shape = RoundedCornerShape(18.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .border(1.dp, cs.outline, RoundedCornerShape(18.dp))
             )
 
             LazyRow(
@@ -132,19 +117,17 @@ fun SelectorEjerciciosScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
-                    FilterChip(
-                        selected = soloFavoritos,
-                        onClick = { soloFavoritos = !soloFavoritos },
-                        label = { Text(stringResource(R.string.favoritos)) },
-                        colors = chipColores()
+                    PildoraLify(
+                        texto = stringResource(R.string.favoritos),
+                        seleccionada = soloFavoritos,
+                        alPulsar = { soloFavoritos = !soloFavoritos }
                     )
                 }
                 items(GrupoMuscular.values().toList()) { g ->
-                    FilterChip(
-                        selected = grupoFiltro == g.name,
-                        onClick = { grupoFiltro = if (grupoFiltro == g.name) null else g.name },
-                        label = { Text(stringResource(g.etiquetaRes())) },
-                        colors = chipColores()
+                    PildoraLify(
+                        texto = stringResource(g.etiquetaRes()),
+                        seleccionada = grupoFiltro == g.name,
+                        alPulsar = { grupoFiltro = if (grupoFiltro == g.name) null else g.name }
                     )
                 }
             }
@@ -159,7 +142,8 @@ fun SelectorEjerciciosScreen(
 
             LazyColumn(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 8.dp)
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(filtrados, key = { it.id }) { e ->
                     val marcado = e.id in seleccionados
@@ -167,10 +151,17 @@ fun SelectorEjerciciosScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(if (marcado) cs.primary.copy(alpha = 0.10f) else cs.surface)
+                            .border(
+                                width = if (marcado) 1.5.dp else 1.dp,
+                                color = if (marcado) cs.primary else cs.outline.copy(alpha = 0.7f),
+                                shape = RoundedCornerShape(20.dp)
+                            )
                             .clickable {
                                 seleccionados = if (marcado) seleccionados - e.id else seleccionados + e.id
                             }
-                            .padding(vertical = 6.dp)
+                            .padding(horizontal = 12.dp, vertical = 10.dp)
                     ) {
                         AvatarGrupo(e.grupo, seleccionado = marcado)
                         Column(modifier = Modifier
@@ -179,14 +170,16 @@ fun SelectorEjerciciosScreen(
                             Text(
                                 text = e.nombre,
                                 color = cs.onBackground,
-                                style = MaterialTheme.typography.bodyLarge,
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.Bold,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
                             Text(
                                 text = stringResource(e.grupo.etiquetaRes()),
-                                color = cs.onSurfaceVariant,
-                                style = MaterialTheme.typography.bodyMedium
+                                color = colorDeGrupo(e.grupo),
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                         IconButton(onClick = { ejerciciosVm.alternarFavorito(e) }) {

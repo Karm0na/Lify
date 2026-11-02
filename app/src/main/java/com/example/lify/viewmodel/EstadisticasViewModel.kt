@@ -10,6 +10,8 @@ import com.example.lify.domain.PorcentajeGrupo
 import com.example.lify.domain.PuntoProgreso
 import com.example.lify.domain.UnidadPeso
 import com.example.lify.domain.diasEntrenadosSemana
+import com.example.lify.domain.fechaLocal
+import com.example.lify.domain.rachaSemanas
 import com.example.lify.domain.distribucionPorGrupo
 import com.example.lify.domain.intensidadMusculos
 import com.example.lify.domain.progresoPorSesion
@@ -34,7 +36,13 @@ data class EstadisticasUi(
     val entrenamientosPeriodo: Int = 0,
     val distribucion: List<PorcentajeGrupo> = emptyList(),
     val intensidad: Map<GrupoMuscular, Float> = emptyMap(),
-    val recientes: List<Sesion> = emptyList()
+    val recientes: List<Sesion> = emptyList(),
+    /** Todos los días (fecha local) en los que hubo al menos un entrenamiento: alimenta el calendario. */
+    val fechasEntrenadas: Set<LocalDate> = emptySet(),
+    val rachaSemanas: Int = 0,
+    val totalEntrenamientos: Int = 0,
+    /** Volumen total (kg · repeticiones) del periodo elegido. */
+    val volumenPeriodo: Double = 0.0
 )
 
 /** Todo lo que se ve en la pestaña Estadísticas sale de consultas a la base de datos. */
@@ -64,7 +72,11 @@ class EstadisticasViewModel(app: Application) : AndroidViewModel(app) {
             entrenamientosPeriodo = sesiones.count { it.inicio >= desde },
             distribucion = distribucion,
             intensidad = intensidadMusculos(distribucion),
-            recientes = sesiones.take(10)
+            recientes = sesiones.take(10),
+            fechasEntrenadas = sesiones.map { fechaLocal(it.inicio, zona) }.toSet(),
+            rachaSemanas = rachaSemanas(sesiones.map { it.inicio }, hoy, zona),
+            totalEntrenamientos = sesiones.size,
+            volumenPeriodo = agregado.sumOf { it.volumenKg }
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), EstadisticasUi())
 

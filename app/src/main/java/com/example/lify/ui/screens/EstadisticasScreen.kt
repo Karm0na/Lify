@@ -1,6 +1,8 @@
 package com.example.lify.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,13 +12,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -36,18 +44,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lify.R
+import com.example.lify.domain.GrupoMuscular
 import com.example.lify.domain.Periodo
 import com.example.lify.domain.UnidadPeso
 import com.example.lify.domain.formatearDuracion
 import com.example.lify.domain.formatearNumero
 import com.example.lify.model.Sesion
+import com.example.lify.ui.components.BaldosaDato
 import com.example.lify.ui.components.BarraDato
+import com.example.lify.ui.components.PildoraLify
+import com.example.lify.ui.components.degradadoAcento
+import com.example.lify.ui.components.EjeRadar
 import com.example.lify.ui.components.GraficaBarras
+import com.example.lify.ui.components.GraficaRadar
 import com.example.lify.ui.components.GraficaLineas
 import com.example.lify.ui.components.MapaMusculos
 import com.example.lify.ui.components.TarjetaLify
@@ -58,6 +74,10 @@ import com.example.lify.ui.etiquetaRes
 import com.example.lify.viewmodel.EstadisticasViewModel
 import java.text.DateFormat
 import java.time.DayOfWeek
+import java.time.Instant
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.ZoneId
 import java.time.format.TextStyle
 import java.util.Date
 import java.util.Locale
@@ -88,35 +108,48 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
     ) {
         item { TituloPantalla(stringResource(R.string.estadisticas_titulo)) }
 
-        // ---- Días entrenados de la semana
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                TituloSeccion(stringResource(R.string.esta_semana))
-                DiasEntrenadosRow(ui.diasSemana)
-            }
-        }
+        // ---- Calendario mensual con racha
+        item { CalendarioMes(ui.fechasEntrenadas, ui.rachaSemanas) }
 
         // ---- Selector de periodo
         item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(Periodo.values().toList()) { p ->
-                    FilterChip(
-                        selected = periodo == p,
-                        onClick = { vm.cambiarPeriodo(p) },
-                        label = { Text(stringResource(p.etiquetaRes())) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = cs.primary,
-                            selectedLabelColor = cs.onPrimary
-                        )
+                    PildoraLify(
+                        texto = stringResource(p.etiquetaRes()),
+                        seleccionada = periodo == p,
+                        alPulsar = { vm.cambiarPeriodo(p) }
                     )
                 }
             }
         }
 
+        // ---- Resumen en baldosas
         item {
-            Text(
-                text = stringResource(R.string.entrenamientos_periodo, ui.entrenamientosPeriodo),
-                color = cs.onSurfaceVariant
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+                BaldosaDato(
+                    valor = ui.entrenamientosPeriodo.toString(),
+                    etiqueta = stringResource(periodo.etiquetaRes()),
+                    modifier = Modifier.weight(1f)
+                )
+                BaldosaDato(
+                    valor = ui.totalEntrenamientos.toString(),
+                    etiqueta = stringResource(R.string.entrenamientos),
+                    modifier = Modifier.weight(1f)
+                )
+                BaldosaDato(
+                    valor = stringResource(R.string.racha_semanas, ui.rachaSemanas),
+                    etiqueta = stringResource(R.string.racha),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        // ---- Volumen del periodo (dato destacado)
+        item {
+            TarjetaVolumen(
+                valor = compactar(unidad.desdeKg(ui.volumenPeriodo)) + " " + unidad.simbolo,
+                etiqueta = stringResource(R.string.metrica_volumen) + " · " + stringResource(periodo.etiquetaRes())
             )
         }
 
@@ -138,8 +171,14 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
                     TituloSeccion(stringResource(R.string.distribucion_musculos))
                     Spacer(modifier = Modifier.height(12.dp))
                     if (ui.distribucion.isEmpty()) {
-                        Text(stringResource(R.string.sin_datos_periodo), color = cs.onSurfaceVariant)
+                        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(stringResource(R.string.sin_datos_periodo), color = cs.onSurfaceVariant, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(vertical = 24.dp))
+                        }
                     } else {
+                        GraficaRadar(
+                            EJES_RADAR.map { EjeRadar(stringResource(it.etiquetaRes()), ui.intensidad[it] ?: 0f) }
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
                         val maximo = ui.distribucion.maxOf { it.porcentaje }
                         GraficaBarras(
                             ui.distribucion.map {
@@ -163,7 +202,9 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
                     TituloSeccion(stringResource(R.string.progreso_ejercicio))
                     Spacer(modifier = Modifier.height(8.dp))
                     if (realizados.isEmpty() || ejercicioActual == null) {
-                        Text(stringResource(R.string.sin_historial), color = cs.onSurfaceVariant)
+                        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(stringResource(R.string.sin_historial), color = cs.onSurfaceVariant, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(vertical = 24.dp))
+                        }
                     } else {
                         Box {
                             TextButton(onClick = { menuEjercicio = true }) {
@@ -176,7 +217,7 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
                             DropdownMenu(
                                 expanded = menuEjercicio,
                                 onDismissRequest = { menuEjercicio = false },
-                                modifier = Modifier.background(cs.surfaceVariant)
+                                modifier = Modifier.background(cs.surfaceVariant, RoundedCornerShape(12.dp))
                             ) {
                                 realizados.forEach { e ->
                                     DropdownMenuItem(
@@ -191,24 +232,16 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
                         }
                         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             items(Metrica.values().toList()) { m ->
-                                FilterChip(
-                                    selected = metrica == m,
-                                    onClick = { metrica = m },
-                                    label = {
-                                        Text(
-                                            stringResource(
-                                                when (m) {
-                                                    Metrica.PESO_MAXIMO -> R.string.metrica_peso_max
-                                                    Metrica.VOLUMEN -> R.string.metrica_volumen
-                                                    Metrica.UN_RM -> R.string.metrica_1rm
-                                                }
-                                            )
-                                        )
-                                    },
-                                    colors = FilterChipDefaults.filterChipColors(
-                                        selectedContainerColor = cs.primary,
-                                        selectedLabelColor = cs.onPrimary
-                                    )
+                                PildoraLify(
+                                    texto = stringResource(
+                                        when (m) {
+                                            Metrica.PESO_MAXIMO -> R.string.metrica_peso_max
+                                            Metrica.VOLUMEN -> R.string.metrica_volumen
+                                            Metrica.UN_RM -> R.string.metrica_1rm
+                                        }
+                                    ),
+                                    seleccionada = metrica == m,
+                                    alPulsar = { metrica = m }
                                 )
                             }
                         }
@@ -245,15 +278,42 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
         // ---- Entrenamientos recientes
         item { TituloSeccion(stringResource(R.string.entrenamientos_recientes)) }
         if (ui.recientes.isEmpty()) {
-            item { Text(stringResource(R.string.sin_entrenamientos), color = cs.onSurfaceVariant) }
+            item {
+                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(stringResource(R.string.sin_entrenamientos), color = cs.onSurfaceVariant, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(vertical = 24.dp))
+                }
+            }
         }
         items(ui.recientes, key = { it.id }) { s ->
+            val fecha = Instant.ofEpochMilli(s.inicio).atZone(ZoneId.systemDefault()).toLocalDate()
             TarjetaLify {
                 Row(
-                    modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 4.dp),
+                    modifier = Modifier.padding(start = 14.dp, top = 10.dp, bottom = 10.dp, end = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .size(52.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(cs.primary.copy(alpha = 0.12f))
+                            .border(1.dp, cs.primary.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
+                            .padding(top = 6.dp)
+                    ) {
+                        Text(
+                            text = fecha.dayOfMonth.toString(),
+                            color = cs.primary,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                        Text(
+                            text = fecha.month.getDisplayName(TextStyle.SHORT, Locale.getDefault()).uppercase(),
+                            color = cs.onSurfaceVariant,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Column(modifier = Modifier.weight(1f).padding(start = 14.dp)) {
                         Text(text = s.nombre, color = cs.onSurface, fontWeight = FontWeight.Bold)
                         Text(
                             text = DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(s.inicio)) +
@@ -279,6 +339,7 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
         AlertDialog(
             onDismissRequest = { sesionAEliminar = null },
             containerColor = cs.surface,
+            shape = RoundedCornerShape(24.dp),
             title = { Text(stringResource(R.string.eliminar_entrenamiento_titulo)) },
             text = { Text(stringResource(R.string.eliminar_entrenamiento_texto)) },
             confirmButton = {
@@ -294,29 +355,167 @@ fun EstadisticasScreen(vm: EstadisticasViewModel) {
     }
 }
 
-/** Siete círculos (lunes a domingo): naranja si ese día de la semana actual se entrenó. */
+/**
+ * Calendario del mes (lunes a domingo) con los días entrenados rellenos con el acento, el día de
+ * hoy marcado con borde y la racha de semanas debajo. Las flechas cambian de mes.
+ */
 @Composable
-private fun DiasEntrenadosRow(entrenados: List<Boolean>) {
+private fun CalendarioMes(entrenados: Set<LocalDate>, rachaSemanas: Int) {
     val cs = MaterialTheme.colorScheme
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        DayOfWeek.values().forEachIndexed { i, dia ->
-            val hecho = entrenados.getOrElse(i) { false }
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(if (hecho) cs.primary else cs.surfaceVariant, CircleShape),
-                contentAlignment = Alignment.Center
+    var mes by remember { mutableStateOf(YearMonth.now()) }
+    val hoy = LocalDate.now()
+    val cabeceras = listOf(
+        stringResource(R.string.dia_lunes), stringResource(R.string.dia_martes), stringResource(R.string.dia_miercoles),
+        stringResource(R.string.dia_jueves), stringResource(R.string.dia_viernes), stringResource(R.string.dia_sabado),
+        stringResource(R.string.dia_domingo)
+    )
+    val huecoInicial = mes.atDay(1).dayOfWeek.value - 1
+    val diasDelMes = mes.lengthOfMonth()
+    val filas = (huecoInicial + diasDelMes + 6) / 7
+    val nombreMes = mes.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        .replaceFirstChar { it.titlecase(Locale.getDefault()) } + " " + mes.year
+
+    TarjetaLify {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                IconButton(onClick = { mes = mes.minusMonths(1) }) {
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null, tint = cs.primary)
+                }
                 Text(
-                    text = dia.getDisplayName(TextStyle.NARROW, Locale.getDefault()),
-                    color = if (hecho) cs.onPrimary else cs.onSurface,
+                    text = nombreMes,
+                    color = cs.onSurface,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.ExtraBold
+                )
+                IconButton(onClick = { mes = mes.plusMonths(1) }) {
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = cs.primary)
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                cabeceras.forEach { c ->
+                    Text(
+                        text = c.take(2).uppercase(),
+                        color = cs.onSurfaceVariant,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            for (fila in 0 until filas) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    for (col in 0..6) {
+                        val dia = fila * 7 + col - huecoInicial + 1
+                        if (dia in 1..diasDelMes) {
+                            val fecha = mes.atDay(dia)
+                            val hecho = entrenados.contains(fecha)
+                            val esHoy = fecha == hoy
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(3.dp)
+                                    .aspectRatio(1f)
+                                    .clip(CircleShape)
+                                    .then(
+                                        if (hecho) Modifier.background(degradadoAcento(), CircleShape)
+                                        else Modifier.background(cs.background.copy(alpha = 0.55f), CircleShape)
+                                    )
+                                    .then(
+                                        if (esHoy) Modifier.border(1.5.dp, cs.primary, CircleShape) else Modifier
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = dia.toString(),
+                                    color = if (hecho) cs.onPrimary else cs.onSurfaceVariant,
+                                    style = MaterialTheme.typography.labelLarge,
+                                    fontWeight = if (hecho) FontWeight.ExtraBold else FontWeight.Medium
+                                )
+                            }
+                        } else {
+                            Spacer(modifier = Modifier.weight(1f).padding(3.dp).aspectRatio(1f))
+                        }
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(cs.background.copy(alpha = 0.55f))
+                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "\uD83D\uDD25", fontSize = 22.sp)
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = stringResource(R.string.racha) + ": " + stringResource(R.string.racha_semanas, rachaSemanas),
+                    color = cs.onSurface,
                     fontWeight = FontWeight.Bold
                 )
+            }
+        }
+    }
+}
+
+/** Grupos que se dibujan en el radar (los 10 que se entrenan con pesas y se ven bien repartidos). */
+private val EJES_RADAR = listOf(
+    GrupoMuscular.PECHO, GrupoMuscular.ESPALDA, GrupoMuscular.HOMBROS, GrupoMuscular.BICEPS,
+    GrupoMuscular.TRICEPS, GrupoMuscular.CORE, GrupoMuscular.CUADRICEPS, GrupoMuscular.ISQUIOTIBIALES,
+    GrupoMuscular.GLUTEOS, GrupoMuscular.GEMELOS
+)
+
+/** 1.234 -> "1234", 12.345 -> "12,3K", 2.400.000 -> "2,4M": cifras cortas para dato destacado. */
+private fun compactar(v: Double): String = when {
+    v >= 1_000_000.0 -> formatearNumero(v / 1_000_000.0, 1) + "M"
+    v >= 10_000.0 -> formatearNumero(v / 1_000.0, 1) + "K"
+    else -> formatearNumero(v, 0)
+}
+
+/** Tarjeta ancha con una cifra grande de acento y su etiqueta, como las de resumen de las referencias. */
+@Composable
+private fun TarjetaVolumen(valor: String, etiqueta: String) {
+    val cs = MaterialTheme.colorScheme
+    TarjetaLify {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 18.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = etiqueta,
+                    color = cs.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = valor,
+                    color = cs.primary,
+                    style = MaterialTheme.typography.displayMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    maxLines = 1
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape)
+                    .background(cs.primary.copy(alpha = 0.14f), CircleShape)
+                    .border(1.dp, cs.primary.copy(alpha = 0.4f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(Icons.Default.FitnessCenter, contentDescription = null, tint = cs.primary, modifier = Modifier.size(26.dp))
             }
         }
     }

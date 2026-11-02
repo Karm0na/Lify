@@ -1,5 +1,6 @@
 package com.example.lify.ui.theme
 
+import android.os.Build
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -14,38 +15,40 @@ import androidx.core.view.WindowCompat
 import com.example.lify.data.TemaApp
 
 private val EsquemaOscuro = darkColorScheme(
-    primary = Naranja,
-    onPrimary = Color.Black,
-    secondary = Naranja,
-    onSecondary = Color.Black,
-    tertiary = Naranja,
+    primary = LifyAmbar,
+    onPrimary = SobreAmbar,
+    secondary = LifyAmbar,
+    onSecondary = SobreAmbar,
+    tertiary = LifyExito,
     background = FondoOscuro,
-    onBackground = Color.White,
+    onBackground = TextoPrincipalOscuro,
     surface = SuperficieOscura,
-    onSurface = Color.White,
+    onSurface = TextoPrincipalOscuro,
     surfaceVariant = SuperficieVariantOscura,
     onSurfaceVariant = TextoSecundarioOscuro,
     outline = BordeOscuro,
-    error = Color(0xFFCF6679)
+    outlineVariant = BordeOscuro,
+    error = LifyError
 )
 
 private val EsquemaClaro = lightColorScheme(
-    primary = Naranja,
-    onPrimary = Color.Black,
-    secondary = Naranja,
-    onSecondary = Color.Black,
-    tertiary = Naranja,
+    primary = LifyAmbarOscuro,
+    onPrimary = SobreAmbar,
+    secondary = LifyAmbarOscuro,
+    onSecondary = SobreAmbar,
+    tertiary = Color(0xFF16A34A),
     background = FondoClaro,
-    onBackground = Color(0xFF1C1B1F),
+    onBackground = TextoPrincipalClaro,
     surface = SuperficieClara,
-    onSurface = Color(0xFF1C1B1F),
+    onSurface = TextoPrincipalClaro,
     surfaceVariant = SuperficieVariantClara,
     onSurfaceVariant = TextoSecundarioClaro,
     outline = BordeClaro,
-    error = Color(0xFFB3261E)
+    outlineVariant = BordeClaro,
+    error = Color(0xFFD32F2F)
 )
 
-/** Tema de Lify: oscuro con acento naranja por defecto; claro o el del sistema si el usuario lo elige. */
+/** Tema de Lify: oscuro con acento ámbar por defecto; claro o el del sistema si el usuario lo elige. */
 @Composable
 fun LifyTheme(
     tema: TemaApp = TemaApp.OSCURO,
